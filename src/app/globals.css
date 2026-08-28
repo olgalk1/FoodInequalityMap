@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #ffffff;
+  --panel: #ffffff;
+  --panel-2: #f6f7f9;
+  --line: #e4e7ec;
+  --line-strong: #cdd3db;
+  --text: #14181f;
+  --muted: #667085;
+  --accent: #b23a2c;
+  --accent-soft: #fbeae7;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-panel: var(--panel);
+  --color-panel2: var(--panel-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Range inputs — light track, accent knob */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--line-strong);
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 2px solid var(--knob, #14181f);
+  cursor: grab;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.18);
+}
+
+input[type="range"]::-webkit-slider-thumb:active {
+  cursor: grabbing;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 13px;
+  height: 13px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 2px solid var(--knob, #14181f);
+  cursor: grab;
+}
+
+/* Scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cdd3db transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #d7dbe1;
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #c2c8d0;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Sub-plot / map cards */
+.card {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+}
+
+.map-region {
+  transition:
+    fill 140ms ease,
+    stroke 120ms ease,
+    stroke-width 120ms ease;
+  cursor: pointer;
+}
+
+.map-region:hover {
+  stroke: #14181f;
+  stroke-width: 1.4;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}

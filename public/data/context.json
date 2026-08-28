@@ -1,0 +1,966 @@
+{
+ "boroughPay": [
+  {
+   "date": "January 2020",
+   "median_hackney_newham": 2029.0,
+   "median_tower_hamlets": 2444.0,
+   "mean_hackney_newham": 2871.0,
+   "mean_tower_hamlets": 4218.0
+  },
+  {
+   "date": "February 2020",
+   "median_hackney_newham": 2029.0,
+   "median_tower_hamlets": 2441.0,
+   "mean_hackney_newham": 2977.0,
+   "mean_tower_hamlets": 4490.0
+  },
+  {
+   "date": "March 2020",
+   "median_hackney_newham": 2006.0,
+   "median_tower_hamlets": 2434.0,
+   "mean_hackney_newham": 3000.0,
+   "mean_tower_hamlets": 4583.0
+  },
+  {
+   "date": "April 2020",
+   "median_hackney_newham": 1945.0,
+   "median_tower_hamlets": 2402.0,
+   "mean_hackney_newham": 2668.0,
+   "mean_tower_hamlets": 3590.0
+  },
+  {
+   "date": "May 2020",
+   "median_hackney_newham": 1940.0,
+   "median_tower_hamlets": 2391.0,
+   "mean_hackney_newham": 2664.0,
+   "mean_tower_hamlets": 3587.0
+  },
+  {
+   "date": "June 2020",
+   "median_hackney_newham": 1954.0,
+   "median_tower_hamlets": 2413.0,
+   "mean_hackney_newham": 2654.0,
+   "mean_tower_hamlets": 3604.0
+  },
+  {
+   "date": "July 2020",
+   "median_hackney_newham": 1999.0,
+   "median_tower_hamlets": 2452.0,
+   "mean_hackney_newham": 2693.0,
+   "mean_tower_hamlets": 3642.0
+  },
+  {
+   "date": "August 2020",
+   "median_hackney_newham": 2035.0,
+   "median_tower_hamlets": 2511.0,
+   "mean_hackney_newham": 2741.0,
+   "mean_tower_hamlets": 3746.0
+  },
+  {
+   "date": "September 2020",
+   "median_hackney_newham": 2072.0,
+   "median_tower_hamlets": 2537.0,
+   "mean_hackney_newham": 2753.0,
+   "mean_tower_hamlets": 3702.0
+  },
+  {
+   "date": "October 2020",
+   "median_hackney_newham": 2105.0,
+   "median_tower_hamlets": 2566.0,
+   "mean_hackney_newham": 2807.0,
+   "mean_tower_hamlets": 3747.0
+  },
+  {
+   "date": "November 2020",
+   "median_hackney_newham": 2097.0,
+   "median_tower_hamlets": 2575.0,
+   "mean_hackney_newham": 2879.0,
+   "mean_tower_hamlets": 3854.0
+  },
+  {
+   "date": "December 2020",
+   "median_hackney_newham": 2113.0,
+   "median_tower_hamlets": 2605.0,
+   "mean_hackney_newham": 3034.0,
+   "mean_tower_hamlets": 4293.0
+  },
+  {
+   "date": "January 2021",
+   "median_hackney_newham": 2080.0,
+   "median_tower_hamlets": 2570.0,
+   "mean_hackney_newham": 3140.0,
+   "mean_tower_hamlets": 4618.0
+  },
+  {
+   "date": "February 2021",
+   "median_hackney_newham": 2082.0,
+   "median_tower_hamlets": 2576.0,
+   "mean_hackney_newham": 3188.0,
+   "mean_tower_hamlets": 4764.0
+  },
+  {
+   "date": "March 2021",
+   "median_hackney_newham": 2108.0,
+   "median_tower_hamlets": 2605.0,
+   "mean_hackney_newham": 3176.0,
+   "mean_tower_hamlets": 4740.0
+  },
+  {
+   "date": "April 2021",
+   "median_hackney_newham": 2121.0,
+   "median_tower_hamlets": 2621.0,
+   "mean_hackney_newham": 2913.0,
+   "mean_tower_hamlets": 3878.0
+  },
+  {
+   "date": "May 2021",
+   "median_hackney_newham": 2137.0,
+   "median_tower_hamlets": 2624.0,
+   "mean_hackney_newham": 2996.0,
+   "mean_tower_hamlets": 3898.0
+  },
+  {
+   "date": "June 2021",
+   "median_hackney_newham": 2162.0,
+   "median_tower_hamlets": 2626.0,
+   "mean_hackney_newham": 2942.0,
+   "mean_tower_hamlets": 3815.0
+  },
+  {
+   "date": "July 2021",
+   "median_hackney_newham": 2165.0,
+   "median_tower_hamlets": 2621.0,
+   "mean_hackney_newham": 2965.0,
+   "mean_tower_hamlets": 3874.0
+  },
+  {
+   "date": "August 2021",
+   "median_hackney_newham": 2177.0,
+   "median_tower_hamlets": 2624.0,
+   "mean_hackney_newham": 2977.0,
+   "mean_tower_hamlets": 3900.0
+  },
+  {
+   "date": "September 2021",
+   "median_hackney_newham": 2198.0,
+   "median_tower_hamlets": 2638.0,
+   "mean_hackney_newham": 2946.0,
+   "mean_tower_hamlets": 3753.0
+  },
+  {
+   "date": "October 2021",
+   "median_hackney_newham": 2209.0,
+   "median_tower_hamlets": 2644.0,
+   "mean_hackney_newham": 2965.0,
+   "mean_tower_hamlets": 3751.0
+  },
+  {
+   "date": "November 2021",
+   "median_hackney_newham": 2209.0,
+   "median_tower_hamlets": 2645.0,
+   "mean_hackney_newham": 3044.0,
+   "mean_tower_hamlets": 3859.0
+  },
+  {
+   "date": "December 2021",
+   "median_hackney_newham": 2236.0,
+   "median_tower_hamlets": 2688.0,
+   "mean_hackney_newham": 3219.0,
+   "mean_tower_hamlets": 4356.0
+  },
+  {
+   "date": "January 2022",
+   "median_hackney_newham": 2209.0,
+   "median_tower_hamlets": 2644.0,
+   "mean_hackney_newham": 3506.0,
+   "mean_tower_hamlets": 4942.0
+  },
+  {
+   "date": "February 2022",
+   "median_hackney_newham": 2213.0,
+   "median_tower_hamlets": 2647.0,
+   "mean_hackney_newham": 3525.0,
+   "mean_tower_hamlets": 5174.0
+  },
+  {
+   "date": "March 2022",
+   "median_hackney_newham": 2259.0,
+   "median_tower_hamlets": 2706.0,
+   "mean_hackney_newham": 3473.0,
+   "mean_tower_hamlets": 5203.0
+  },
+  {
+   "date": "April 2022",
+   "median_hackney_newham": 2271.0,
+   "median_tower_hamlets": 2706.0,
+   "mean_hackney_newham": 3096.0,
+   "mean_tower_hamlets": 4030.0
+  },
+  {
+   "date": "May 2022",
+   "median_hackney_newham": 2283.0,
+   "median_tower_hamlets": 2721.0,
+   "mean_hackney_newham": 3171.0,
+   "mean_tower_hamlets": 4114.0
+  },
+  {
+   "date": "June 2022",
+   "median_hackney_newham": 2284.0,
+   "median_tower_hamlets": 2740.0,
+   "mean_hackney_newham": 3131.0,
+   "mean_tower_hamlets": 4058.0
+  },
+  {
+   "date": "July 2022",
+   "median_hackney_newham": 2298.0,
+   "median_tower_hamlets": 2772.0,
+   "mean_hackney_newham": 3124.0,
+   "mean_tower_hamlets": 4064.0
+  },
+  {
+   "date": "August 2022",
+   "median_hackney_newham": 2325.0,
+   "median_tower_hamlets": 2790.0,
+   "mean_hackney_newham": 3172.0,
+   "mean_tower_hamlets": 4130.0
+  },
+  {
+   "date": "September 2022",
+   "median_hackney_newham": 2356.0,
+   "median_tower_hamlets": 2841.0,
+   "mean_hackney_newham": 3157.0,
+   "mean_tower_hamlets": 4036.0
+  },
+  {
+   "date": "October 2022",
+   "median_hackney_newham": 2358.0,
+   "median_tower_hamlets": 2832.0,
+   "mean_hackney_newham": 3157.0,
+   "mean_tower_hamlets": 4009.0
+  },
+  {
+   "date": "November 2022",
+   "median_hackney_newham": 2387.0,
+   "median_tower_hamlets": 2894.0,
+   "mean_hackney_newham": 3279.0,
+   "mean_tower_hamlets": 4154.0
+  },
+  {
+   "date": "December 2022",
+   "median_hackney_newham": 2410.0,
+   "median_tower_hamlets": 2918.0,
+   "mean_hackney_newham": 3384.0,
+   "mean_tower_hamlets": 4595.0
+  },
+  {
+   "date": "January 2023",
+   "median_hackney_newham": 2373.0,
+   "median_tower_hamlets": 2878.0,
+   "mean_hackney_newham": 3567.0,
+   "mean_tower_hamlets": 5052.0
+  },
+  {
+   "date": "February 2023",
+   "median_hackney_newham": 2367.0,
+   "median_tower_hamlets": 2860.0,
+   "mean_hackney_newham": 3703.0,
+   "mean_tower_hamlets": 5245.0
+  },
+  {
+   "date": "March 2023",
+   "median_hackney_newham": 2392.0,
+   "median_tower_hamlets": 2896.0,
+   "mean_hackney_newham": 3749.0,
+   "mean_tower_hamlets": 5370.0
+  },
+  {
+   "date": "April 2023",
+   "median_hackney_newham": 2407.0,
+   "median_tower_hamlets": 2903.0,
+   "mean_hackney_newham": 3288.0,
+   "mean_tower_hamlets": 4270.0
+  },
+  {
+   "date": "May 2023",
+   "median_hackney_newham": 2441.0,
+   "median_tower_hamlets": 2935.0,
+   "mean_hackney_newham": 3388.0,
+   "mean_tower_hamlets": 4375.0
+  },
+  {
+   "date": "June 2023",
+   "median_hackney_newham": 2470.0,
+   "median_tower_hamlets": 2977.0,
+   "mean_hackney_newham": 3376.0,
+   "mean_tower_hamlets": 4341.0
+  },
+  {
+   "date": "July 2023",
+   "median_hackney_newham": 2454.0,
+   "median_tower_hamlets": 2959.0,
+   "mean_hackney_newham": 3300.0,
+   "mean_tower_hamlets": 4264.0
+  },
+  {
+   "date": "August 2023",
+   "median_hackney_newham": 2463.0,
+   "median_tower_hamlets": 2959.0,
+   "mean_hackney_newham": 3343.0,
+   "mean_tower_hamlets": 4309.0
+  },
+  {
+   "date": "September 2023",
+   "median_hackney_newham": 2465.0,
+   "median_tower_hamlets": 2959.0,
+   "mean_hackney_newham": 3274.0,
+   "mean_tower_hamlets": 4163.0
+  },
+  {
+   "date": "October 2023",
+   "median_hackney_newham": 2466.0,
+   "median_tower_hamlets": 2959.0,
+   "mean_hackney_newham": 3283.0,
+   "mean_tower_hamlets": 4142.0
+  },
+  {
+   "date": "November 2023",
+   "median_hackney_newham": 2511.0,
+   "median_tower_hamlets": 3024.0,
+   "mean_hackney_newham": 3406.0,
+   "mean_tower_hamlets": 4307.0
+  },
+  {
+   "date": "December 2023",
+   "median_hackney_newham": 2539.0,
+   "median_tower_hamlets": 3045.0,
+   "mean_hackney_newham": 3562.0,
+   "mean_tower_hamlets": 4821.0
+  },
+  {
+   "date": "January 2024",
+   "median_hackney_newham": 2502.0,
+   "median_tower_hamlets": 2998.0,
+   "mean_hackney_newham": 3711.0,
+   "mean_tower_hamlets": 5279.0
+  },
+  {
+   "date": "February 2024",
+   "median_hackney_newham": 2493.0,
+   "median_tower_hamlets": 2986.0,
+   "mean_hackney_newham": 3925.0,
+   "mean_tower_hamlets": 5631.0
+  },
+  {
+   "date": "March 2024",
+   "median_hackney_newham": 2535.0,
+   "median_tower_hamlets": 3029.0,
+   "mean_hackney_newham": 3944.0,
+   "mean_tower_hamlets": 5574.0
+  },
+  {
+   "date": "April 2024",
+   "median_hackney_newham": 2537.0,
+   "median_tower_hamlets": 3007.0,
+   "mean_hackney_newham": 3431.0,
+   "mean_tower_hamlets": 4383.0
+  },
+  {
+   "date": "May 2024",
+   "median_hackney_newham": 2557.0,
+   "median_tower_hamlets": 3026.0,
+   "mean_hackney_newham": 3574.0,
+   "mean_tower_hamlets": 4526.0
+  },
+  {
+   "date": "June 2024",
+   "median_hackney_newham": 2557.0,
+   "median_tower_hamlets": 3034.0,
+   "mean_hackney_newham": 3559.0,
+   "mean_tower_hamlets": 4491.0
+  },
+  {
+   "date": "July 2024",
+   "median_hackney_newham": 2571.0,
+   "median_tower_hamlets": 3050.0,
+   "mean_hackney_newham": 3465.0,
+   "mean_tower_hamlets": 4353.0
+  },
+  {
+   "date": "August 2024",
+   "median_hackney_newham": 2585.0,
+   "median_tower_hamlets": 3066.0,
+   "mean_hackney_newham": 3525.0,
+   "mean_tower_hamlets": 4431.0
+  },
+  {
+   "date": "September 2024",
+   "median_hackney_newham": 2589.0,
+   "median_tower_hamlets": 3060.0,
+   "mean_hackney_newham": 3437.0,
+   "mean_tower_hamlets": 4298.0
+  },
+  {
+   "date": "October 2024",
+   "median_hackney_newham": 2632.0,
+   "median_tower_hamlets": 3129.0,
+   "mean_hackney_newham": 3514.0,
+   "mean_tower_hamlets": 4352.0
+  },
+  {
+   "date": "November 2024",
+   "median_hackney_newham": 2651.0,
+   "median_tower_hamlets": 3158.0,
+   "mean_hackney_newham": 3637.0,
+   "mean_tower_hamlets": 4549.0
+  },
+  {
+   "date": "December 2024",
+   "median_hackney_newham": 2678.0,
+   "median_tower_hamlets": 3166.0,
+   "mean_hackney_newham": 3744.0,
+   "mean_tower_hamlets": 5026.0
+  },
+  {
+   "date": "January 2025",
+   "median_hackney_newham": 2640.0,
+   "median_tower_hamlets": 3129.0,
+   "mean_hackney_newham": 3944.0,
+   "mean_tower_hamlets": 5372.0
+  },
+  {
+   "date": "February 2025",
+   "median_hackney_newham": 2625.0,
+   "median_tower_hamlets": 3120.0,
+   "mean_hackney_newham": 4194.0,
+   "mean_tower_hamlets": 5890.0
+  },
+  {
+   "date": "March 2025",
+   "median_hackney_newham": 2641.0,
+   "median_tower_hamlets": 3138.0,
+   "mean_hackney_newham": 4201.0,
+   "mean_tower_hamlets": 5824.0
+  },
+  {
+   "date": "April 2025",
+   "median_hackney_newham": 2676.0,
+   "median_tower_hamlets": 3157.0,
+   "mean_hackney_newham": 3623.0,
+   "mean_tower_hamlets": 4529.0
+  },
+  {
+   "date": "May 2025",
+   "median_hackney_newham": 2687.0,
+   "median_tower_hamlets": 3166.0,
+   "mean_hackney_newham": 3733.0,
+   "mean_tower_hamlets": 4626.0
+  },
+  {
+   "date": "June 2025",
+   "median_hackney_newham": 2689.0,
+   "median_tower_hamlets": 3171.0,
+   "mean_hackney_newham": 3662.0,
+   "mean_tower_hamlets": 4584.0
+  },
+  {
+   "date": "July 2025",
+   "median_hackney_newham": 2709.0,
+   "median_tower_hamlets": 3209.0,
+   "mean_hackney_newham": 3622.0,
+   "mean_tower_hamlets": 4569.0
+  },
+  {
+   "date": "August 2025",
+   "median_hackney_newham": 2744.0,
+   "median_tower_hamlets": 3243.0,
+   "mean_hackney_newham": 3740.0,
+   "mean_tower_hamlets": 4697.0
+  },
+  {
+   "date": "September 2025",
+   "median_hackney_newham": 2723.0,
+   "median_tower_hamlets": 3214.0,
+   "mean_hackney_newham": 3609.0,
+   "mean_tower_hamlets": 4486.0
+  },
+  {
+   "date": "October 2025",
+   "median_hackney_newham": 2731.0,
+   "median_tower_hamlets": 3225.0,
+   "mean_hackney_newham": 3648.0,
+   "mean_tower_hamlets": 4600.0
+  },
+  {
+   "date": "November 2025",
+   "median_hackney_newham": 2723.0,
+   "median_tower_hamlets": 3230.0,
+   "mean_hackney_newham": 3749.0,
+   "mean_tower_hamlets": 4742.0
+  },
+  {
+   "date": "December 2025",
+   "median_hackney_newham": 2772.0,
+   "median_tower_hamlets": 3282.0,
+   "mean_hackney_newham": 3888.0,
+   "mean_tower_hamlets": 5321.0
+  },
+  {
+   "date": "January 2026",
+   "median_hackney_newham": 2738.0,
+   "median_tower_hamlets": 3243.0,
+   "mean_hackney_newham": 4081.0,
+   "mean_tower_hamlets": 5736.0
+  },
+  {
+   "date": "February 2026",
+   "median_hackney_newham": 2723.0,
+   "median_tower_hamlets": 3241.0,
+   "mean_hackney_newham": 4359.0,
+   "mean_tower_hamlets": 6318.0
+  },
+  {
+   "date": "March 2026",
+   "median_hackney_newham": 2752.0,
+   "median_tower_hamlets": 3271.0,
+   "mean_hackney_newham": 4320.0,
+   "mean_tower_hamlets": 6065.0
+  },
+  {
+   "date": "April 2026",
+   "median_hackney_newham": 2790.0,
+   "median_tower_hamlets": 3287.0,
+   "mean_hackney_newham": 3753.0,
+   "mean_tower_hamlets": 4748.0
+  },
+  {
+   "date": "May 2026",
+   "median_hackney_newham": 2804.0,
+   "median_tower_hamlets": 3298.0,
+   "mean_hackney_newham": 3879.0,
+   "mean_tower_hamlets": 4866.0
+  },
+  {
+   "date": "June 2026",
+   "median_hackney_newham": 2813.0,
+   "median_tower_hamlets": 3313.0,
+   "mean_hackney_newham": 3876.0,
+   "mean_tower_hamlets": 4883.0
+  }
+ ],
+ "wardChildPoverty": [
+  {
+   "ward_code": "E05009367",
+   "ward_name": "Brownswood",
+   "local_authority": "Hackney",
+   "children_ahc_2025": 400.0,
+   "child_poverty_ahc_pct": 29.304029304,
+   "child_poverty_bhc_pct": 15.8241758242,
+   "child_poverty_bhc_pct_2022": 15.9820761763,
+   "child_population": 1365.0
+  },
+  {
+   "ward_code": "E05009368",
+   "ward_name": "Cazenove",
+   "local_authority": "Hackney",
+   "children_ahc_2025": 3465.0,
+   "child_poverty_ahc_pct": 81.9536423841,
+   "child_poverty_bhc_pct": 20.7426679281,
+   "child_poverty_bhc_pct_2022": 17.4798673614,
+   "child_population": 4228.0
+  },
+  {
+   "ward_code": "E05009369",
+   "ward_name": "Clissold",
+   "local_authority": "Hackney",
+   "children_ahc_2025": 597.0,
+   "child_poverty_ahc_pct": 28.173666824,
+   "child_poverty_bhc_pct": 14.3463898065,
+   "child_poverty_bhc_pct_2022": 15.2745731426,
+   "child_population": 2119.0
+  },
+  {
+   "ward_code": "E05009370",
+   "ward_name": "Dalston",
+   "local_authority": "Hackney",
+   "children_ahc_2025": 314.0,
+   "child_poverty_ahc_pct": 30.6640625,
+   "child_poverty_bhc_pct": 16.2109375,
+   "child_poverty_bhc_pct_2022": 16.4139161463,
+   "child_population": 1024.0
+  },
+  {
+   "ward_code": "E05009371",
+   "ward_name": "De Beauvoir",
+   "local_authority": "Hackney",
+   "children_ahc_2025": 461.0,
+   "child_poverty_ahc_pct": 31.6838487973,
+   "child_poverty_bhc_pct": 18.4879725086,
+   "child_poverty_bhc_pct_2022": 19.6870925684,
+   "child_population": 1455.0
+  },
+  {
+   "ward_code": "E05009372",
+   "ward_name": "Hackney Central",
+   "local_authority": "Hackney",
+   "children_ahc_2025": 739.0,
+   "child_poverty_ahc_pct": 36.2432564983,
+   "child_poverty_bhc_pct": 19.7155468367,
+   "child_poverty_bhc_pct_2022": 21.6604823748,
+   "child_population": 2039.0
+  },
+  {
+   "ward_code": "E05009373",
+   "ward_name": "Hackney Downs",
+   "local_authority": "Hackney",
+   "children_ahc_2025": 748.0,
+   "child_poverty_ahc_pct": 36.1003861004,
+   "child_poverty_bhc_pct": 21.6216216216,
+   "child_poverty_bhc_pct_2022": 22.7528089888,
+   "child_population": 2072.0
+  },
+  {
+   "ward_code": "E05009374",
+   "ward_name": "Hackney Wick",
+   "local_authority": "Hackney",
+   "children_ahc_2025": 838.0,
+   "child_poverty_ahc_pct": 40.0573613767,
+   "child_poverty_bhc_pct": 21.2715105163,
+   "child_poverty_bhc_pct_2022": 24.6350364964,
+   "child_population": 2092.0
+  },
+  {
+   "ward_code": "E05009375",
+   "ward_name": "Haggerston",
+   "local_authority": "Hackney",
+   "children_ahc_2025": 799.0,
+   "child_poverty_ahc_pct": 38.6550556362,
+   "child_poverty_bhc_pct": 25.641025641,
+   "child_poverty_bhc_pct_2022": 27.2600834492,
+   "child_population": 2067.0
+  },
+  {
+   "ward_code": "E05009376",
+   "ward_name": "Homerton",
+   "local_authority": "Hackney",
+   "children_ahc_2025": 1063.0,
+   "child_poverty_ahc_pct": 42.0490506329,
+   "child_poverty_bhc_pct": 24.9208860759,
+   "child_poverty_bhc_pct_2022": 23.6447931526,
+   "child_population": 2528.0
+  },
+  {
+   "ward_code": "E05009377",
+   "ward_name": "Hoxton East & Shoreditch",
+   "local_authority": "Hackney",
+   "children_ahc_2025": 577.0,
+   "child_poverty_ahc_pct": 38.2625994695,
+   "child_poverty_bhc_pct": 26.7904509284,
+   "child_poverty_bhc_pct_2022": 31.7983820784,
+   "child_population": 1508.0
+  },
+  {
+   "ward_code": "E05009378",
+   "ward_name": "Hoxton West",
+   "local_authority": "Hackney",
+   "children_ahc_2025": 673.0,
+   "child_poverty_ahc_pct": 38.2169222033,
+   "child_poverty_bhc_pct": 24.8154457694,
+   "child_poverty_bhc_pct_2022": 25.0260145682,
+   "child_population": 1761.0
+  },
+  {
+   "ward_code": "E05009379",
+   "ward_name": "King's Park",
+   "local_authority": "Hackney",
+   "children_ahc_2025": 871.0,
+   "child_poverty_ahc_pct": 36.066252588,
+   "child_poverty_bhc_pct": 21.4078674948,
+   "child_poverty_bhc_pct_2022": 19.151333083,
+   "child_population": 2415.0
+  },
+  {
+   "ward_code": "E05009380",
+   "ward_name": "Lea Bridge",
+   "local_authority": "Hackney",
+   "children_ahc_2025": 1005.0,
+   "child_poverty_ahc_pct": 38.9534883721,
+   "child_poverty_bhc_pct": 16.1240310078,
+   "child_poverty_bhc_pct_2022": 14.0042223786,
+   "child_population": 2580.0
+  },
+  {
+   "ward_code": "E05009381",
+   "ward_name": "London Fields",
+   "local_authority": "Hackney",
+   "children_ahc_2025": 520.0,
+   "child_poverty_ahc_pct": 27.9269602578,
+   "child_poverty_bhc_pct": 17.2395273899,
+   "child_poverty_bhc_pct_2022": 19.012987013,
+   "child_population": 1862.0
+  },
+  {
+   "ward_code": "E05009382",
+   "ward_name": "Shacklewell",
+   "local_authority": "Hackney",
+   "children_ahc_2025": 651.0,
+   "child_poverty_ahc_pct": 44.803854095,
+   "child_poverty_bhc_pct": 26.1527873365,
+   "child_poverty_bhc_pct_2022": 25.3712871287,
+   "child_population": 1453.0
+  },
+  {
+   "ward_code": "E05009383",
+   "ward_name": "Springfield",
+   "local_authority": "Hackney",
+   "children_ahc_2025": 4604.0,
+   "child_poverty_ahc_pct": 87.5618105744,
+   "child_poverty_bhc_pct": 25.3138075314,
+   "child_poverty_bhc_pct_2022": 20.2808756712,
+   "child_population": 5258.0
+  },
+  {
+   "ward_code": "E05009384",
+   "ward_name": "Stamford Hill West",
+   "local_authority": "Hackney",
+   "children_ahc_2025": 3023.0,
+   "child_poverty_ahc_pct": 84.6304591265,
+   "child_poverty_bhc_pct": 20.2407614782,
+   "child_poverty_bhc_pct_2022": 15.2725153017,
+   "child_population": 3572.0
+  },
+  {
+   "ward_code": "E05009385",
+   "ward_name": "Stoke Newington",
+   "local_authority": "Hackney",
+   "children_ahc_2025": 578.0,
+   "child_poverty_ahc_pct": 26.971535231,
+   "child_poverty_bhc_pct": 12.0858609426,
+   "child_poverty_bhc_pct_2022": 10.2864583333,
+   "child_population": 2143.0
+  },
+  {
+   "ward_code": "E05009386",
+   "ward_name": "Victoria",
+   "local_authority": "Hackney",
+   "children_ahc_2025": 692.0,
+   "child_poverty_ahc_pct": 34.8263714142,
+   "child_poverty_bhc_pct": 22.8485153498,
+   "child_poverty_bhc_pct_2022": 20.5840791333,
+   "child_population": 1987.0
+  },
+  {
+   "ward_code": "E05009387",
+   "ward_name": "Woodberry Down",
+   "local_authority": "Hackney",
+   "children_ahc_2025": 1529.0,
+   "child_poverty_ahc_pct": 57.6111529766,
+   "child_poverty_bhc_pct": 25.8854559156,
+   "child_poverty_bhc_pct_2022": 23.0481882705,
+   "child_population": 2654.0
+  },
+  {
+   "ward_code": "E05009317",
+   "ward_name": "Bethnal Green East",
+   "local_authority": "Tower Hamlets",
+   "children_ahc_2025": 2016.0,
+   "child_poverty_ahc_pct": 53.8030424339,
+   "child_poverty_bhc_pct": 30.8246597278,
+   "child_poverty_bhc_pct_2022": 27.5136206043,
+   "child_population": 3747.0
+  },
+  {
+   "ward_code": "E05009318",
+   "ward_name": "Blackwall & Cubitt Town",
+   "local_authority": "Tower Hamlets",
+   "children_ahc_2025": 1453.0,
+   "child_poverty_ahc_pct": 40.0717043574,
+   "child_poverty_bhc_pct": 16.9056811914,
+   "child_poverty_bhc_pct_2022": 16.2278015922,
+   "child_population": 3626.0
+  },
+  {
+   "ward_code": "E05009319",
+   "ward_name": "Bow East",
+   "local_authority": "Tower Hamlets",
+   "children_ahc_2025": 1444.0,
+   "child_poverty_ahc_pct": 43.8639125152,
+   "child_poverty_bhc_pct": 23.0558930741,
+   "child_poverty_bhc_pct_2022": 22.0962304628,
+   "child_population": 3292.0
+  },
+  {
+   "ward_code": "E05009320",
+   "ward_name": "Bow West",
+   "local_authority": "Tower Hamlets",
+   "children_ahc_2025": 867.0,
+   "child_poverty_ahc_pct": 38.2106654914,
+   "child_poverty_bhc_pct": 21.2869105333,
+   "child_poverty_bhc_pct_2022": 19.2842105263,
+   "child_population": 2269.0
+  },
+  {
+   "ward_code": "E05009321",
+   "ward_name": "Bromley North",
+   "local_authority": "Tower Hamlets",
+   "children_ahc_2025": 1346.0,
+   "child_poverty_ahc_pct": 53.84,
+   "child_poverty_bhc_pct": 28.32,
+   "child_poverty_bhc_pct_2022": 23.2064128257,
+   "child_population": 2500.0
+  },
+  {
+   "ward_code": "E05009322",
+   "ward_name": "Bromley South",
+   "local_authority": "Tower Hamlets",
+   "children_ahc_2025": 1626.0,
+   "child_poverty_ahc_pct": 53.3990147783,
+   "child_poverty_bhc_pct": 25.4515599343,
+   "child_poverty_bhc_pct_2022": 22.383252818,
+   "child_population": 3045.0
+  },
+  {
+   "ward_code": "E05009323",
+   "ward_name": "Canary Wharf",
+   "local_authority": "Tower Hamlets",
+   "children_ahc_2025": 1025.0,
+   "child_poverty_ahc_pct": 39.4079200308,
+   "child_poverty_bhc_pct": 18.4544405998,
+   "child_poverty_bhc_pct_2022": 16.9090909091,
+   "child_population": 2601.0
+  },
+  {
+   "ward_code": "E05009324",
+   "ward_name": "Island Gardens",
+   "local_authority": "Tower Hamlets",
+   "children_ahc_2025": 931.0,
+   "child_poverty_ahc_pct": 34.6096654275,
+   "child_poverty_bhc_pct": 18.1412639405,
+   "child_poverty_bhc_pct_2022": 16.6666666667,
+   "child_population": 2690.0
+  },
+  {
+   "ward_code": "E05009325",
+   "ward_name": "Lansbury",
+   "local_authority": "Tower Hamlets",
+   "children_ahc_2025": 2647.0,
+   "child_poverty_ahc_pct": 54.7579644187,
+   "child_poverty_bhc_pct": 25.8791890774,
+   "child_poverty_bhc_pct_2022": 20.4155013983,
+   "child_population": 4834.0
+  },
+  {
+   "ward_code": "E05009326",
+   "ward_name": "Limehouse",
+   "local_authority": "Tower Hamlets",
+   "children_ahc_2025": 336.0,
+   "child_poverty_ahc_pct": 41.8430884184,
+   "child_poverty_bhc_pct": 24.9066002491,
+   "child_poverty_bhc_pct_2022": 20.0501253133,
+   "child_population": 803.0
+  },
+  {
+   "ward_code": "E05009327",
+   "ward_name": "Mile End",
+   "local_authority": "Tower Hamlets",
+   "children_ahc_2025": 2277.0,
+   "child_poverty_ahc_pct": 50.8940545373,
+   "child_poverty_bhc_pct": 25.8381761287,
+   "child_poverty_bhc_pct_2022": 23.3188720174,
+   "child_population": 4474.0
+  },
+  {
+   "ward_code": "E05009328",
+   "ward_name": "Poplar",
+   "local_authority": "Tower Hamlets",
+   "children_ahc_2025": 1157.0,
+   "child_poverty_ahc_pct": 63.8520971302,
+   "child_poverty_bhc_pct": 30.5739514349,
+   "child_poverty_bhc_pct_2022": 24.5321193728,
+   "child_population": 1812.0
+  },
+  {
+   "ward_code": "E05009329",
+   "ward_name": "St Dunstan's",
+   "local_authority": "Tower Hamlets",
+   "children_ahc_2025": 1490.0,
+   "child_poverty_ahc_pct": 49.4359654944,
+   "child_poverty_bhc_pct": 27.3390842734,
+   "child_poverty_bhc_pct_2022": 25.3810264386,
+   "child_population": 3014.0
+  },
+  {
+   "ward_code": "E05009330",
+   "ward_name": "St Katharine's & Wapping",
+   "local_authority": "Tower Hamlets",
+   "children_ahc_2025": 457.0,
+   "child_poverty_ahc_pct": 32.0252277505,
+   "child_poverty_bhc_pct": 18.2200420463,
+   "child_poverty_bhc_pct_2022": 15.9973226238,
+   "child_population": 1427.0
+  },
+  {
+   "ward_code": "E05009331",
+   "ward_name": "Bethnal Green West",
+   "local_authority": "Tower Hamlets",
+   "children_ahc_2025": 1878.0,
+   "child_poverty_ahc_pct": 56.1267184698,
+   "child_poverty_bhc_pct": 33.562462642,
+   "child_poverty_bhc_pct_2022": 32.4324324324,
+   "child_population": 3346.0
+  },
+  {
+   "ward_code": "E05009332",
+   "ward_name": "Shadwell",
+   "local_authority": "Tower Hamlets",
+   "children_ahc_2025": 1710.0,
+   "child_poverty_ahc_pct": 60.5309734513,
+   "child_poverty_bhc_pct": 33.6283185841,
+   "child_poverty_bhc_pct_2022": 29.6754767481,
+   "child_population": 2825.0
+  },
+  {
+   "ward_code": "E05009333",
+   "ward_name": "Spitalfields & Banglatown",
+   "local_authority": "Tower Hamlets",
+   "children_ahc_2025": 1142.0,
+   "child_poverty_ahc_pct": 55.3294573643,
+   "child_poverty_bhc_pct": 32.3643410853,
+   "child_poverty_bhc_pct_2022": 29.5972828724,
+   "child_population": 2064.0
+  },
+  {
+   "ward_code": "E05009334",
+   "ward_name": "Stepney Green",
+   "local_authority": "Tower Hamlets",
+   "children_ahc_2025": 1501.0,
+   "child_poverty_ahc_pct": 59.6819085487,
+   "child_poverty_bhc_pct": 33.6381709742,
+   "child_poverty_bhc_pct_2022": 29.2843326886,
+   "child_population": 2515.0
+  },
+  {
+   "ward_code": "E05009335",
+   "ward_name": "Weavers",
+   "local_authority": "Tower Hamlets",
+   "children_ahc_2025": 1039.0,
+   "child_poverty_ahc_pct": 50.6582155046,
+   "child_poverty_bhc_pct": 34.7147732813,
+   "child_poverty_bhc_pct_2022": 32.4116047144,
+   "child_population": 2051.0
+  },
+  {
+   "ward_code": "E05009336",
+   "ward_name": "Whitechapel",
+   "local_authority": "Tower Hamlets",
+   "children_ahc_2025": 1902.0,
+   "child_poverty_ahc_pct": 60.380952381,
+   "child_poverty_bhc_pct": 30.6349206349,
+   "child_poverty_bhc_pct_2022": 27.8022670025,
+   "child_population": 3150.0
+  }
+ ],
+ "studyAreas": {
+  "E02007111": "Shoreditch",
+  "E02000872": "Brick Lane North"
+ }
+}
