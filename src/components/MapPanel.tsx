@@ -5,13 +5,16 @@ import type { FeatureCollection, Geometry } from "geojson";
 
 import { downloadPng, downloadSvg } from "@/lib/exporters";
 import { SERIES_COLOURS, quantileColour, quantileStops } from "@/lib/format";
+import { DOMAINS, PRESETS } from "@/lib/indicators";
 import type { ModelResult } from "@/lib/model";
 import { projectFeatures } from "@/lib/projection";
 
 interface Props {
   geo: FeatureCollection<Geometry, { code: string; name: string }>;
-  /** the fixed reference model the map draws (baseline specification) */
-  baseModel: ModelResult;
+  /** the model the map draws — follows the selected preset */
+  model: ModelResult;
+  preset: string;
+  onPreset: (id: string) => void;
   selected: string[];
   hovered: string | null;
   onSelect: (code: string) => void;
@@ -23,7 +26,9 @@ const H = 600;
 
 export default function MapPanel({
   geo,
-  baseModel,
+  model,
+  preset,
+  onPreset,
   selected,
   hovered,
   onSelect,
@@ -32,56 +37,84 @@ export default function MapPanel({
   const svgRef = useRef<SVGSVGElement>(null);
   const [labels, setLabels] = useState(false);
 
-  const { paths, centroids } = useMemo(
-    () => projectFeatures(geo, W, H, 16),
-    [geo],
-  );
+  const { paths, centroids } = useMemo(() => projectFeatures(geo, W, H, 16), [geo]);
 
   const sortedScores = useMemo(
     () =>
-      baseModel.scored
+      model.scored
         .filter(Boolean)
         .map((s) => s.score)
         .sort((a, b) => a - b),
-    [baseModel],
+    [model],
   );
   const stops = quantileStops(sortedScores);
 
   const selIndex = (code: string) => selected.indexOf(code);
-  const hov = hovered && baseModel.byCode[hovered];
+  const hov = hovered && model.byCode[hovered];
+
+  const activePreset = PRESETS.find((p) => p.id === preset) ?? PRESETS[0];
+  const weightSummary = DOMAINS.filter((d) => (activePreset.domains[d.key] ?? 0) > 0)
+    .map((d) => `${d.label.toLowerCase()} ${Math.round(activePreset.domains[d.key])}`)
+    .join(" · ");
 
   return (
     <section className="card overflow-hidden">
-      <header className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-line px-4 py-3">
-        <div className="min-w-0">
-          <h2 className="text-[13px] font-semibold tracking-tight">
-            Food Inequality Score — baseline specification
-          </h2>
-          <p className="text-[11px] text-muted">
-            64 MSOAs · Hackney &amp; Tower Hamlets · income 40 / class 25 / deprivation 25 /
-            education 10, min–max normalised. Click an area to pin it to the sub-plots below.
-          </p>
+      <header className="border-b border-line px-4 py-3">
+        <div className="flex flex-wrap items-start gap-x-3 gap-y-1">
+          <div className="min-w-0">
+            <h2 className="text-[13px] font-semibold tracking-tight">
+              Food Inequality Score — {activePreset.label}
+            </h2>
+            <p className="text-[11px] text-muted">
+              64 MSOAs · {weightSummary} · min–max normalised. Click an area to pin it.
+            </p>
+          </div>
+          <div className="no-print ml-auto flex items-center gap-1.5">
+            <button
+              onClick={() => setLabels((v) => !v)}
+              className="rounded-md border border-line px-2.5 py-1 text-[11px] text-muted transition hover:border-line-strong hover:text-text"
+            >
+              {labels ? "Hide codes" : "Show codes"}
+            </button>
+            <button
+              onClick={() => svgRef.current && downloadSvg(svgRef.current, "food-inequality-map.svg")}
+              className="rounded-md border border-line px-2.5 py-1 text-[11px] text-muted transition hover:border-line-strong hover:text-text"
+            >
+              SVG
+            </button>
+            <button
+              onClick={() =>
+                svgRef.current && downloadPng(svgRef.current, "food-inequality-map.png", 2)
+              }
+              className="rounded-md border border-line px-2.5 py-1 text-[11px] text-muted transition hover:border-line-strong hover:text-text"
+            >
+              PNG
+            </button>
+          </div>
         </div>
-        <div className="no-print ml-auto flex items-center gap-1.5">
-          <button
-            onClick={() => setLabels((v) => !v)}
-            className="rounded-md border border-line px-2.5 py-1 text-[11px] text-muted transition hover:border-line-strong hover:text-text"
-          >
-            {labels ? "Hide codes" : "Show codes"}
-          </button>
-          <button
-            onClick={() => svgRef.current && downloadSvg(svgRef.current, "food-inequality-map.svg")}
-            className="rounded-md border border-line px-2.5 py-1 text-[11px] text-muted transition hover:border-line-strong hover:text-text"
-          >
-            SVG
-          </button>
-          <button
-            onClick={() => svgRef.current && downloadPng(svgRef.current, "food-inequality-map.png", 2)}
-            className="rounded-md border border-line px-2.5 py-1 text-[11px] text-muted transition hover:border-line-strong hover:text-text"
-          >
-            PNG
-          </button>
+
+        <div className="mt-2 flex flex-wrap items-center gap-1.5">
+          <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
+            Specification
+          </span>
+          {PRESETS.map((p) => (
+            <button
+              key={p.id}
+              onClick={() => onPreset(p.id)}
+              title={p.rationale}
+              className={`rounded-full border px-2.5 py-1 text-[11px] transition ${
+                preset === p.id
+                  ? "border-accent bg-accent-soft text-accent"
+                  : "border-line text-muted hover:border-line-strong hover:text-text"
+              }`}
+            >
+              {p.label.split(":")[0]}
+            </button>
+          ))}
         </div>
+        {activePreset.id !== "baseline" && (
+          <p className="mt-1.5 text-[11px] leading-relaxed text-muted">{activePreset.rationale}</p>
+        )}
       </header>
 
       <div className="relative">
@@ -97,7 +130,7 @@ export default function MapPanel({
           <rect x={0} y={0} width={W} height={H} fill="#ffffff" />
           {geo.features.map((f) => {
             const code = f.properties.code;
-            const s = baseModel.byCode[code];
+            const s = model.byCode[code];
             const idx = selIndex(code);
             const isSel = idx >= 0;
             const isHov = hovered === code;
@@ -130,9 +163,8 @@ export default function MapPanel({
             );
           })}
 
-          {/* study-site rings */}
           {geo.features
-            .filter((f) => baseModel.byCode[f.properties.code]?.area.isStudyArea)
+            .filter((f) => model.byCode[f.properties.code]?.area.isStudyArea)
             .map((f) => {
               const [cx, cy] = centroids[f.properties.code];
               return (

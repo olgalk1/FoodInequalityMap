@@ -109,13 +109,30 @@ export interface ModelResult {
 export function runModel(
   areas: Area[],
   weights: Weights,
-  mode: NormMode,
+  mode: NormMode = "minmax",
 ): ModelResult {
   const normalised: Record<string, Record<string, number>> = {};
   for (const def of ALL_INDICATORS) {
     normalised[def.key] = normaliseIndicator(areas, def, mode);
   }
   return assemble(areas, weights, normalised);
+}
+
+/**
+ * Run the model after overriding specific raw indicator values for specific
+ * areas. `overrides` is keyed by area code, then by indicator key. Used by the
+ * sub-plots to ask "what would the score be if this neighbourhood's actual
+ * figure were X", with the weighting method held constant.
+ */
+export function runModelWith(
+  areas: Area[],
+  weights: Weights,
+  overrides: Record<string, Record<string, number>>,
+): ModelResult {
+  const patched = areas.map((a) =>
+    overrides[a.code] ? { ...a, ...overrides[a.code] } : a,
+  );
+  return runModel(patched, weights, "minmax");
 }
 
 /** Rebuilds scores from an already-normalised matrix. Cheap enough to sweep. */

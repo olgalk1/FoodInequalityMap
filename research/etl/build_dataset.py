@@ -223,6 +223,63 @@ def read_child_poverty_wards(xl: pd.ExcelFile) -> pd.DataFrame:
     return out
 
 
+def read_alt_class_grade(xl: pd.ExcelFile) -> dict:
+    """Borough-level approximated social grade from the two breakdown sheets.
+
+    SG006 (by ethnic group) and SG013 (by sex by age) are published only to
+    local-authority level, so there is no MSOA figure. We take the Hackney and
+    Tower Hamlets totals for each grade and turn them into shares; the app
+    applies each borough's shares to every MSOA in that borough as a
+    class-measure substitution check.
+    """
+    grades = ("Total", "AB", "C1", "C2", "DE")
+
+    def parse(sheet: str) -> dict:
+        df = xl.parse(sheet, header=None)
+        out: dict[str, dict[str, float]] = {}
+        grade = None
+        sex = "All persons"
+        for _, r in df.iterrows():
+            key = str(r[0]).strip()
+            val = str(r[1]).strip()
+            if key == "approximated social grade":
+                grade = next((g for g in grades if val.startswith(g)), None)
+            elif key == "sex":
+                sex = val
+            elif key.startswith(("ladu2023:", "lacu2023:")) and grade and sex == "All persons":
+                borough = key.split(":", 1)[1].strip()
+                if borough in ("Hackney", "Tower Hamlets"):
+                    out.setdefault(borough, {})[grade] = num(r[1]) or 0.0
+        result = {}
+        for borough, g in out.items():
+            total = g.get("Total") or sum(g.get(k, 0) for k in ("AB", "C1", "C2", "DE"))
+            result[borough] = {
+                "class_ab_pct": pct(g.get("AB"), total),
+                "class_c2_pct": pct(g.get("C2"), total),
+                "class_de_pct": pct(g.get("DE"), total),
+                "class_c2de_pct": pct((g.get("C2") or 0) + (g.get("DE") or 0), total),
+                "population_in_households": total,
+            }
+        return result
+
+    return {
+        "note": (
+            "ONS approximated social grade is published only to local-authority level for "
+            "these two breakdowns. Each borough figure is applied to every MSOA in that "
+            "borough. Shoreditch = Hackney 033 (E02007111); Brick Lane North = "
+            "Tower Hamlets 009 (E02000872)."
+        ),
+        "ethnicGroup": {
+            "source": "Nomis SG006 approximated social grade by ethnic group, Census 2021",
+            **parse("social grade ethnic group"),
+        },
+        "sexAge": {
+            "source": "Nomis SG013 approximated social grade by sex by age (all persons), Census 2021",
+            **parse("social grad w sex and age"),
+        },
+    }
+
+
 def read_borough_pay(xl: pd.ExcelFile) -> list[dict]:
     df = xl.parse("income ", header=None)
     header_row = df.index[df[0].astype(str).str.strip() == "Date"][0]
@@ -433,6 +490,7 @@ def build() -> None:
         json.dumps(
             {
                 "boroughPay": read_borough_pay(xl),
+                "altClassGrade": read_alt_class_grade(xl),
                 "wardChildPoverty": json.loads(
                     wards.reset_index().to_json(orient="records")
                 ),

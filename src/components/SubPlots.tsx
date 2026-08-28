@@ -5,94 +5,67 @@ import {
   CartesianGrid,
   Line,
   LineChart,
-  ReferenceLine,
+  ReferenceDot,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
 
-import { DOMAINS, DOMAIN_MAP } from "@/lib/indicators";
+import { DOMAIN_MAP } from "@/lib/indicators";
 import { SERIES_COLOURS } from "@/lib/format";
 import { downloadCsv, downloadPng, findSvg } from "@/lib/exporters";
-import { sweepDomainCurve } from "@/lib/model";
+import { defaultWeights, runModelWith } from "@/lib/model";
 import type { ModelResult } from "@/lib/model";
-import type { Area, DomainKey, Weights } from "@/lib/types";
+import type { Area, DomainKey, Unit } from "@/lib/types";
 
 interface Props {
   areas: Area[];
-  model: ModelResult;
   baseModel: ModelResult;
-  baselineDomains: Record<DomainKey, number>;
-  weights: Weights;
-  setDomainWeight: (key: DomainKey, value: number) => void;
-  selected: string[];
   hovered: string | null;
   onHover: (code: string | null) => void;
 }
 
-const AXIS = { stroke: "#98a2b3", fontSize: 10 };
-const GRID = "#eef0f2";
+const SITES = ["E02007111", "E02000872"]; // Shoreditch, Brick Lane North
 
-export default function SubPlots({
-  areas,
-  model,
-  baseModel,
-  baselineDomains,
-  weights,
-  setDomainWeight,
-  selected,
-  hovered,
-  onHover,
-}: Props) {
-  const [plotDomains, setPlotDomains] = useState<DomainKey[]>([
-    "income",
-    "class",
-    "deprivation",
-    "education",
-  ]);
+/** headline raw indicator swept in each panel; weighting is held at baseline */
+const PANELS: { domain: DomainKey; key: string; unit: Unit; label: string }[] = [
+  { domain: "income", key: "income_ahc", unit: "gbp", label: "Net household income (AHC)" },
+  { domain: "class", key: "class_de_pct", unit: "pct", label: "Social grade DE share" },
+  {
+    domain: "deprivation",
+    key: "child_poverty_ahc_pct",
+    unit: "pct",
+    label: "Child poverty (AHC)",
+  },
+  { domain: "education", key: "no_quals_pct", unit: "pct", label: "Residents with no qualifications" },
+];
 
-  const codes = useMemo(() => {
-    if (selected.length) return selected.slice(0, 4);
-    return areas.filter((a) => a.isStudyArea).map((a) => a.code);
-  }, [selected, areas]);
+const AXIS = { fontSize: 10, fill: "#98a2b3" };
 
-  const nameOf = (code: string) =>
-    model.byCode[code]?.area.name ?? baseModel.byCode[code]?.area.name ?? code;
-
+export default function SubPlots({ areas, baseModel, hovered, onHover }: Props) {
   return (
     <section className="card">
-      <header className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-line px-4 py-3">
-        <div>
-          <h2 className="text-[13px] font-semibold tracking-tight">
-            Weight sensitivity — how the score responds to each domain
-          </h2>
-          <p className="text-[11px] text-muted">
-            Each panel sweeps one domain&apos;s weight from 0 to 100%, holding the others in ratio.
-            The faint dashed line is the baseline specification; the solid line is your current
-            adjustment. Drag a slider to move the score for the pinned areas — the map above stays
-            fixed.
-          </p>
-        </div>
+      <header className="border-b border-line px-4 py-3">
+        <h2 className="text-[13px] font-semibold tracking-tight">
+          Input sensitivity — Shoreditch &amp; Brick Lane
+        </h2>
+        <p className="max-w-[95ch] text-[11px] leading-relaxed text-muted">
+          Each panel flexes one raw input for the two study areas while the weighting stays at the
+          baseline specification (40 / 25 / 25 / 10, min–max). The line is the Food Inequality Score
+          as that figure varies for one area, holding the other 63 fixed; the hollow marker is the
+          real value, the filled marker your what-if. Panels are independent — changing income here
+          does not touch the class panel.
+        </p>
       </header>
 
       <div className="grid grid-cols-1 gap-px bg-line lg:grid-cols-2">
-        {plotDomains.map((dk, i) => (
+        {PANELS.map((p) => (
           <Panel
-            key={i}
-            slot={i}
+            key={p.domain}
+            panel={p}
             areas={areas}
-            model={model}
             baseModel={baseModel}
-            baselineDomains={baselineDomains}
-            weights={weights}
-            domainKey={dk}
-            onChangeDomain={(next) =>
-              setPlotDomains((p) => p.map((d, idx) => (idx === i ? next : d)))
-            }
-            setDomainWeight={setDomainWeight}
-            codes={codes}
-            nameOf={nameOf}
             hovered={hovered}
             onHover={onHover}
           />
@@ -103,117 +76,101 @@ export default function SubPlots({
 }
 
 interface PanelProps {
-  slot: number;
+  panel: (typeof PANELS)[number];
   areas: Area[];
-  model: ModelResult;
   baseModel: ModelResult;
-  baselineDomains: Record<DomainKey, number>;
-  weights: Weights;
-  domainKey: DomainKey;
-  onChangeDomain: (k: DomainKey) => void;
-  setDomainWeight: (key: DomainKey, value: number) => void;
-  codes: string[];
-  nameOf: (code: string) => string;
   hovered: string | null;
   onHover: (code: string | null) => void;
 }
 
-function Panel({
-  areas,
-  model,
-  baseModel,
-  baselineDomains,
-  weights,
-  domainKey,
-  onChangeDomain,
-  setDomainWeight,
-  codes,
-  nameOf,
-  hovered,
-  onHover,
-}: PanelProps) {
+function Panel({ panel, areas, baseModel, hovered, onHover }: PanelProps) {
+  const { domain, key, unit, label } = panel;
+  const dm = DOMAIN_MAP[domain];
   const chartRef = useRef<HTMLDivElement>(null);
-  const domain = DOMAIN_MAP[domainKey];
-  const currentWeight = Math.round(weights.domains[domainKey] ?? 0);
-  const baselineWeight = Math.round(baselineDomains[domainKey] ?? 0);
+  const base = useMemo(() => defaultWeights(), []);
 
-  const data = useMemo(() => {
-    const base = sweepDomainCurve(
-      areas,
-      model.normalised,
-      weights.indicators,
-      baselineDomains,
-      domainKey,
-      codes,
-      100,
-      2,
-    );
-    const cur = sweepDomainCurve(
-      areas,
-      model.normalised,
-      weights.indicators,
-      weights.domains,
-      domainKey,
-      codes,
-      100,
-      2,
-    );
-    return base.map((row, i) => {
-      const merged: Record<string, number> = { weight: row.weight };
-      for (const code of codes) {
-        merged[`base_${code}`] = row[code];
-        merged[`cur_${code}`] = cur[i][code];
+  const actual = useMemo(
+    () =>
+      Object.fromEntries(
+        SITES.map((c) => [c, num((baseModel.byCode[c].area as Area)[key])]),
+      ) as Record<string, number>,
+    [baseModel, key],
+  );
+
+  const [whatIf, setWhatIf] = useState<Record<string, number>>(actual);
+
+  // static response curves — one per site, FIS vs the swept raw value
+  const { data, xDomain } = useMemo(() => {
+    const all = areas
+      .map((a) => num(a[key]))
+      .filter((v) => Number.isFinite(v));
+    let lo = Math.min(...all);
+    let hi = Math.max(...all);
+    const pad = (hi - lo) * 0.15 || 1;
+    lo = unit === "pct" ? Math.max(0, lo - pad) : lo - pad;
+    hi = hi + pad;
+    const steps = 40;
+    const xs = Array.from({ length: steps + 1 }, (_, i) => lo + ((hi - lo) * i) / steps);
+
+    const rows = xs.map((x) => {
+      const row: Record<string, number> = { x };
+      for (const c of SITES) {
+        row[c] = runModelWith(areas, base, { [c]: { [key]: x } }).byCode[c].score;
       }
-      return merged;
+      return row;
     });
-  }, [areas, model.normalised, weights.indicators, weights.domains, baselineDomains, domainKey, codes]);
+    return { data: rows, xDomain: [lo, hi] as [number, number] };
+  }, [areas, base, key, unit]);
+
+  const whatIfScore = useMemo(
+    () =>
+      Object.fromEntries(
+        SITES.map((c) => [
+          c,
+          runModelWith(areas, base, { [c]: { [key]: whatIf[c] } }).byCode[c].score,
+        ]),
+      ) as Record<string, number>,
+    [areas, base, key, whatIf],
+  );
+
+  const fmtX = (v: number) =>
+    unit === "gbp" ? `£${Math.round(v / 1000)}k` : `${v.toFixed(0)}%`;
+  const fmtVal = (v: number) =>
+    unit === "gbp" ? `£${Math.round(v).toLocaleString("en-GB")}` : `${v.toFixed(1)}%`;
+
+  const nameOf = (c: string) => baseModel.byCode[c].area.name.replace(" North", "");
 
   const exportCsv = () => {
-    const header = [
-      `${domain.label}_weight`,
-      ...codes.flatMap((c) => [`${nameOf(c)}__baseline`, `${nameOf(c)}__current`]),
-    ];
-    const rows = data.map((r) => [
-      r.weight,
-      ...codes.flatMap((c) => [r[`base_${c}`].toFixed(3), r[`cur_${c}`].toFixed(3)]),
-    ]);
     downloadCsv(
       [
-        [`# ${domain.label} weight sweep · baseline vs current specification`],
-        header,
-        ...rows,
+        [`# ${dm.label} · ${label} — Food Inequality Score vs input value`],
+        ["input_value", ...SITES.map(nameOf)],
+        ...data.map((r) => [
+          unit === "gbp" ? Math.round(r.x) : r.x.toFixed(2),
+          ...SITES.map((c) => r[c].toFixed(3)),
+        ]),
       ],
-      `sweep-${domainKey}.csv`,
+      `input-sensitivity-${domain}.csv`,
     );
   };
 
   return (
     <div className="bg-white px-4 py-3">
-      <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-        <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: domain.colour }} />
-        <select
-          value={domainKey}
-          onChange={(e) => onChangeDomain(e.target.value as DomainKey)}
-          className="rounded-md border border-line bg-white px-1.5 py-1 text-[12px] font-medium focus:border-line-strong focus:outline-none"
-        >
-          {DOMAINS.map((d) => (
-            <option key={d.key} value={d.key}>
-              {d.label}
-            </option>
-          ))}
-        </select>
-        <span className="tabular text-[11px] text-muted">
-          baseline {baselineWeight}% → now {currentWeight}%
-        </span>
+      <div className="flex items-center gap-2">
+        <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: dm.colour }} />
+        <div className="text-[12px] font-medium">
+          {dm.label}
+          <span className="ml-1.5 text-[10.5px] font-normal text-muted">{label}</span>
+        </div>
         <div className="no-print ml-auto flex items-center gap-1">
           <button
-            onClick={() => setDomainWeight(domainKey, baselineWeight)}
+            onClick={() => setWhatIf(actual)}
             className="rounded border border-line px-1.5 py-0.5 text-[10px] text-muted transition hover:text-text"
           >
             reset
           </button>
           <button
-            onClick={() => chartRef.current && exportPng(chartRef.current, domainKey)}
+            onClick={() => chartRef.current && exportPng(chartRef.current, domain)}
             className="rounded border border-line px-1.5 py-0.5 text-[10px] text-muted transition hover:text-text"
           >
             PNG
@@ -227,108 +184,110 @@ function Panel({
         </div>
       </div>
 
-      <div ref={chartRef} className="mt-2 h-[190px]">
+      <div ref={chartRef} className="mt-2 h-[180px]">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data} margin={{ top: 6, right: 10, bottom: 2, left: -20 }}>
-            <CartesianGrid stroke={GRID} />
+          <LineChart data={data} margin={{ top: 6, right: 12, bottom: 2, left: -18 }}>
+            <CartesianGrid stroke="#eef0f2" />
             <XAxis
-              dataKey="weight"
+              dataKey="x"
               type="number"
-              domain={[0, 100]}
-              ticks={[0, 20, 40, 60, 80, 100]}
+              domain={xDomain}
               tick={AXIS}
               stroke="#cdd3db"
+              tickFormatter={fmtX}
             />
-            <YAxis tick={AXIS} stroke="#cdd3db" domain={["auto", "auto"]} width={44} />
+            <YAxis tick={AXIS} stroke="#cdd3db" domain={["auto", "auto"]} width={42} />
             <Tooltip
               contentStyle={{
-                background: "#ffffff",
+                background: "#fff",
                 border: "1px solid #e4e7ec",
                 borderRadius: 8,
                 fontSize: 11,
                 boxShadow: "0 4px 16px rgba(16,24,40,0.10)",
               }}
-              labelFormatter={(v) => `${domain.label} weight ${v}%`}
-              formatter={
-                ((value: number, key: string) => {
-                  const [kind, ...rest] = key.split("_");
-                  const code = rest.join("_");
-                  return [
-                    Number(value).toFixed(1),
-                    `${nameOf(code)} · ${kind === "cur" ? "current" : "baseline"}`,
-                  ];
-                }) as never
-              }
+              formatter={((val: number, code: string) => [
+                Number(val).toFixed(1),
+                nameOf(code),
+              ]) as never}
+              labelFormatter={(v) => `${label}: ${fmtVal(Number(v))}`}
             />
-            <ReferenceLine x={baselineWeight} stroke="#98a2b3" strokeDasharray="2 3" />
-            <ReferenceLine
-              x={currentWeight}
-              stroke={domain.colour}
-              strokeWidth={1.5}
-              label={{ value: `${currentWeight}%`, position: "top", fill: domain.colour, fontSize: 9 }}
-            />
-            {codes.flatMap((code, idx) => {
-              const colour = SERIES_COLOURS[idx % SERIES_COLOURS.length];
-              const active = hovered === code;
-              return [
-                <Line
-                  key={`base_${code}`}
-                  type="monotone"
-                  dataKey={`base_${code}`}
-                  stroke={colour}
-                  strokeOpacity={0.35}
-                  strokeDasharray="4 3"
-                  strokeWidth={1.4}
-                  dot={false}
-                  isAnimationActive={false}
-                />,
-                <Line
-                  key={`cur_${code}`}
-                  type="monotone"
-                  dataKey={`cur_${code}`}
-                  stroke={colour}
-                  strokeWidth={active ? 3 : 2}
-                  dot={false}
-                  isAnimationActive={false}
-                  onMouseEnter={() => onHover(code)}
-                  onMouseLeave={() => onHover(null)}
-                />,
-              ];
-            })}
+            {SITES.map((c, i) => (
+              <Line
+                key={c}
+                type="monotone"
+                dataKey={c}
+                stroke={SERIES_COLOURS[i % SERIES_COLOURS.length]}
+                strokeWidth={hovered === c ? 3 : 2}
+                dot={false}
+                isAnimationActive={false}
+                onMouseEnter={() => onHover(c)}
+                onMouseLeave={() => onHover(null)}
+              />
+            ))}
+            {SITES.map((c, i) => (
+              <ReferenceDot
+                key={`act-${c}`}
+                x={actual[c]}
+                y={baseModel.byCode[c].score}
+                r={4}
+                fill="#fff"
+                stroke={SERIES_COLOURS[i % SERIES_COLOURS.length]}
+                strokeWidth={2}
+                // isFront removed
+              />
+            ))}
+            {SITES.map((c, i) =>
+              Math.abs(whatIf[c] - actual[c]) > 1e-9 ? (
+                <ReferenceDot
+                  key={`wi-${c}`}
+                  x={whatIf[c]}
+                  y={whatIfScore[c]}
+                  r={4.5}
+                  fill={SERIES_COLOURS[i % SERIES_COLOURS.length]}
+                  stroke="#fff"
+                  strokeWidth={1.5}
+                  // isFront removed
+                />
+              ) : null,
+            )}
           </LineChart>
         </ResponsiveContainer>
       </div>
 
-      <input
-        type="range"
-        min={0}
-        max={100}
-        step={1}
-        value={currentWeight}
-        onChange={(e) => setDomainWeight(domainKey, Number(e.target.value))}
-        style={{ ["--knob" as string]: domain.colour }}
-        className="mt-2"
-      />
-
-      <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1">
-        {codes.map((code, idx) => {
-          const cur = model.byCode[code]?.score ?? 0;
-          const base = baseModel.byCode[code]?.score ?? 0;
-          const delta = cur - base;
+      <div className="mt-2 space-y-1.5">
+        {SITES.map((c, i) => {
+          const d = whatIfScore[c] - baseModel.byCode[c].score;
           return (
-            <span
-              key={code}
-              className="tabular text-[10.5px]"
-              style={{ color: SERIES_COLOURS[idx % SERIES_COLOURS.length] }}
-              onMouseEnter={() => onHover(code)}
+            <div
+              key={c}
+              className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[10.5px]"
+              onMouseEnter={() => onHover(c)}
               onMouseLeave={() => onHover(null)}
             >
-              {nameOf(code)}: {cur.toFixed(1)}{" "}
-              <span className="text-muted">
-                ({delta >= 0 ? "+" : ""}
-                {delta.toFixed(1)} vs baseline)
+              <span
+                className="inline-block h-2 w-2 rounded-full"
+                style={{ background: SERIES_COLOURS[i % SERIES_COLOURS.length] }}
+              />
+              <span className="w-[86px] shrink-0 font-medium">{nameOf(c)}</span>
+              <input
+                type={unit === "gbp" ? "number" : "number"}
+                step={unit === "gbp" ? 500 : 0.5}
+                value={round(whatIf[c], unit)}
+                onChange={(e) =>
+                  setWhatIf((w) => ({ ...w, [c]: Number(e.target.value) || 0 }))
+                }
+                className="tabular w-24 rounded border border-line px-1.5 py-0.5 text-right focus:border-line-strong focus:outline-none"
+              />
+              <span className="text-muted">{unit === "gbp" ? "£/yr" : "%"}</span>
+              <span className="tabular text-muted">
+                actual {fmtVal(actual[c])} · FIS {baseModel.byCode[c].score.toFixed(1)} →{" "}
+                <span className="text-text">{whatIfScore[c].toFixed(1)}</span>{" "}
+                <span className={d >= 0 ? "text-accent" : "text-[#1d4ed8]"}>
+                  ({d >= 0 ? "+" : ""}
+                  {d.toFixed(1)})
+                </span>
               </span>
-            </span>
+            </div>
           );
         })}
       </div>
@@ -336,7 +295,13 @@ function Panel({
   );
 }
 
+function num(v: unknown): number {
+  return typeof v === "number" && Number.isFinite(v) ? v : NaN;
+}
+function round(v: number, unit: Unit): number {
+  return unit === "gbp" ? Math.round(v) : Math.round(v * 10) / 10;
+}
 function exportPng(container: HTMLDivElement, key: string) {
   const svg = findSvg(container);
-  if (svg) downloadPng(svg, `sweep-${key}.png`, 2);
+  if (svg) downloadPng(svg, `input-sensitivity-${key}.png`, 2);
 }

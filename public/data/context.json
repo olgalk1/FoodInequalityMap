@@ -962,5 +962,42 @@
  "studyAreas": {
   "E02007111": "Shoreditch",
   "E02000872": "Brick Lane North"
+ },
+ "altClassGrade": {
+  "note": "ONS approximated social grade is published only to local-authority level for these two breakdowns. Each borough figure is applied to every MSOA in that borough. Shoreditch = Hackney 033 (E02007111); Brick Lane North = Tower Hamlets 009 (E02000872).",
+  "ethnicGroup": {
+   "source": "Nomis SG006 approximated social grade by ethnic group, Census 2021",
+   "Hackney": {
+    "class_ab_pct": 29.2589,
+    "class_c2_pct": 13.9283,
+    "class_de_pct": 25.0795,
+    "class_c2de_pct": 39.0078,
+    "population_in_households": 231133
+   },
+   "Tower Hamlets": {
+    "class_ab_pct": 28.0645,
+    "class_c2_pct": 13.8688,
+    "class_de_pct": 29.813,
+    "class_c2de_pct": 43.6817,
+    "population_in_households": 281676
+   }
+  },
+  "sexAge": {
+   "source": "Nomis SG013 approximated social grade by sex by age (all persons), Census 2021",
+   "Hackney": {
+    "class_ab_pct": 29.2584,
+    "class_c2_pct": 13.9283,
+    "class_de_pct": 25.0798,
+    "class_c2de_pct": 39.0081,
+    "population_in_households": 231134
+   },
+   "Tower Hamlets": {
+    "class_ab_pct": 28.0648,
+    "class_c2_pct": 13.8689,
+    "class_de_pct": 29.8129,
+    "class_c2de_pct": 43.6819,
+    "population_in_households": 281673
+   }
+  }
  }
 }

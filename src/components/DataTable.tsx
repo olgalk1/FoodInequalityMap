@@ -7,14 +7,15 @@ import { quantileColour } from "@/lib/format";
 import { downloadCsv } from "@/lib/exporters";
 import { rankCorrelation, assemble } from "@/lib/model";
 import type { ModelResult } from "@/lib/model";
-import type { Area, NormMode, Weights } from "@/lib/types";
+import type { Area, Weights } from "@/lib/types";
+import { PRESETS } from "@/lib/indicators";
 
 interface Props {
   areas: Area[];
   model: ModelResult;
   baseModel: ModelResult;
   weights: Weights;
-  mode: NormMode;
+  preset: string;
   selected: string[];
   onSelect: (code: string) => void;
   hovered: string | null;
@@ -28,76 +29,101 @@ interface Col {
   get: (s: ModelResult["scored"][number]) => number | string;
   fmt?: (v: number) => string;
   align?: "left" | "right";
+  /** shown in the "Map data" view (the four domains that drive the map); all columns show in "All data" */
+  core?: boolean;
 }
 
 const num = (a: Area, k: string) => (typeof a[k] === "number" ? (a[k] as number) : NaN);
 
 const COLS: Col[] = [
-  { key: "rank", label: "#", get: (s) => s.rank, align: "left" },
-  { key: "name", label: "Neighbourhood", get: (s) => s.area.name, align: "left" },
-  { key: "la", label: "Borough", get: (s) => s.area.localAuthority, align: "left" },
-  { key: "fis", label: "FIS", group: "score", get: (s) => s.score, fmt: (v) => v.toFixed(1) },
+  { key: "rank", label: "#", get: (s) => s.rank, align: "left", core: true },
+  { key: "name", label: "Neighbourhood", get: (s) => s.area.name, align: "left", core: true },
+  { key: "la", label: "Borough", get: (s) => s.area.localAuthority, align: "left", core: true },
+  {
+    key: "fis",
+    label: "FIS",
+    group: "score",
+    get: (s) => s.score,
+    fmt: (v) => v.toFixed(1),
+    core: true,
+  },
   {
     key: "income_sub",
-    label: "Income",
-    group: "domain 0–100",
+    label: "Income idx",
+    group: "domain index 0–100 · 100 = most food-inequality-prone (reverse-scored indicators already flipped)",
     get: (s) => s.domain.income,
     fmt: (v) => v.toFixed(0),
+    core: true,
   },
   {
     key: "class_sub",
-    label: "Class",
-    group: "domain 0–100",
+    label: "Class idx",
+    group: "domain index 0–100 · 100 = most food-inequality-prone (reverse-scored indicators already flipped)",
     get: (s) => s.domain.class,
     fmt: (v) => v.toFixed(0),
+    core: true,
   },
   {
     key: "dep_sub",
-    label: "Deprivation",
-    group: "domain 0–100",
+    label: "Deprivation idx",
+    group: "domain index 0–100 · 100 = most food-inequality-prone (reverse-scored indicators already flipped)",
     get: (s) => s.domain.deprivation,
     fmt: (v) => v.toFixed(0),
+    core: true,
   },
   {
     key: "edu_sub",
-    label: "Education",
-    group: "domain 0–100",
+    label: "Education idx",
+    group:
+      "domain index 0–100 · 100 = most food-inequality-prone. Reverse-scored: a high graduate share pushes this DOWN, so a highly-educated area like Shoreditch scores near 0.",
     get: (s) => s.domain.education,
     fmt: (v) => v.toFixed(0),
+    core: true,
   },
   {
     key: "food_sub",
-    label: "Food env.",
-    group: "domain 0–100",
+    label: "Food env. idx",
+    group: "domain index 0–100 · 100 = most food-inequality-prone (reverse-scored indicators already flipped)",
     get: (s) => s.domain.foodEnvironment,
     fmt: (v) => v.toFixed(0),
   },
   {
     key: "income_ahc",
     label: "Income AHC",
-    group: "raw indicators",
+    group: "raw input · Income domain",
     get: (s) => num(s.area as Area, "income_ahc"),
     fmt: (v) => `£${Math.round(v).toLocaleString("en-GB")}`,
+    core: true,
   },
   {
     key: "class_de_pct",
     label: "DE %",
-    group: "raw indicators",
+    group: "raw input · Class domain",
     get: (s) => num(s.area as Area, "class_de_pct"),
     fmt: (v) => v.toFixed(1),
+    core: true,
   },
   {
     key: "child_poverty_ahc_pct",
     label: "Child pov AHC %",
-    group: "raw indicators",
+    group: "raw input · Deprivation domain",
     get: (s) => num(s.area as Area, "child_poverty_ahc_pct"),
     fmt: (v) => v.toFixed(1),
+    core: true,
   },
   {
     key: "no_quals_pct",
     label: "No quals %",
-    group: "raw indicators",
+    group: "raw input · Education domain · Census 2021 TS067, 16+",
     get: (s) => num(s.area as Area, "no_quals_pct"),
+    fmt: (v) => v.toFixed(1),
+    core: true,
+  },
+  {
+    key: "level4plus_pct",
+    label: "Level 4+ %",
+    group: "raw indicators · Census 2021 TS067, 16+ (graduate share)",
+    get: (s) => num(s.area as Area, "level4plus_pct"),
     fmt: (v) => v.toFixed(1),
   },
   {
@@ -121,13 +147,16 @@ export default function DataTable({
   model,
   baseModel,
   weights,
-  mode,
+  preset,
   selected,
   onSelect,
   hovered,
   onHover,
 }: Props) {
+  const presetLabel = (PRESETS.find((p) => p.id === preset) ?? PRESETS[0]).label;
   const [sort, setSort] = useState<{ key: string; dir: 1 | -1 }>({ key: "rank", dir: 1 });
+  const [view, setView] = useState<"map" | "all">("map");
+  const cols = view === "all" ? COLS : COLS.filter((c) => c.core);
 
   const sortedScores = useMemo(
     () =>
@@ -214,7 +243,8 @@ export default function DataTable({
       });
     const spec = [
       ["# Food Inequality Score — scored dataset export"],
-      [`# normalisation: ${mode}`],
+      [`# specification: ${presetLabel}`],
+      [`# normalisation: min-max across the 64 MSOAs`],
       [
         `# effective domain weights: ${DOMAINS.map(
           (d) => `${d.key}=${eff[d.key].toFixed(2)}`,
@@ -243,7 +273,7 @@ export default function DataTable({
         className={`cursor-pointer whitespace-nowrap px-2 py-1.5 font-medium select-none ${
           c.align === "left" ? "text-left" : "text-right"
         } ${activeSort ? "text-text" : "text-muted"} hover:text-text`}
-        title="Click to sort"
+        title={c.group ? `${c.group} — click to sort` : "Click to sort"}
       >
         {c.label}
         {activeSort ? (sort.dir === 1 ? " ▲" : " ▼") : ""}
@@ -256,19 +286,49 @@ export default function DataTable({
       <header className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-line px-4 py-3">
         <div>
           <h2 className="text-[13px] font-semibold tracking-tight">
-            Scored dataset — 64 neighbourhoods, current specification
+            Scored dataset — 64 neighbourhoods · {presetLabel}
           </h2>
           <p className="text-[11px] text-muted">
-            The table the map and sub-plots are built from. Click a row to pin an area; click a
+            The numbers behind the map above; it follows the specification you pick there. Δ is
+            against the baseline specification. <span className="text-text">Map data</span> shows the
+            four domains that drive the score; <span className="text-text">All data</span> adds food
+            environment, every raw indicator and the designation gap. Click a row to pin an area, a
             column to sort.
           </p>
         </div>
-        <button
-          onClick={exportFullCsv}
-          className="no-print ml-auto rounded-md border border-line px-3 py-1.5 text-[11px] font-medium text-text transition hover:border-line-strong"
-        >
-          Export scored CSV
-        </button>
+        <div className="no-print ml-auto flex items-center gap-2">
+          <div className="flex overflow-hidden rounded-md border border-line text-[11px]">
+            {(
+              [
+                ["map", "Map data"],
+                ["all", "All data"],
+              ] as const
+            ).map(([id, lbl]) => (
+              <button
+                key={id}
+                onClick={() => setView(id)}
+                title={
+                  id === "map"
+                    ? "Just the four domains that drive the map, with their headline raw inputs"
+                    : "Every column: food environment, all raw indicators, designation gap"
+                }
+                className={`px-2.5 py-1.5 font-medium transition ${
+                  view === id
+                    ? "bg-text text-white"
+                    : "bg-white text-muted hover:text-text"
+                }`}
+              >
+                {lbl}
+              </button>
+            ))}
+          </div>
+          <button
+            onClick={exportFullCsv}
+            className="rounded-md border border-line px-3 py-1.5 text-[11px] font-medium text-text transition hover:border-line-strong"
+          >
+            Export scored CSV
+          </button>
+        </div>
       </header>
 
       <div className="flex flex-wrap gap-x-5 gap-y-1.5 border-b border-line bg-panel2 px-4 py-2.5 text-[10.5px] text-muted">
@@ -284,15 +344,20 @@ export default function DataTable({
             </span>
           ))}
         </span>
-        <span className="tabular">normalisation: {mode}</span>
+        <span className="tabular">min–max normalised</span>
         <span className="tabular">Spearman ρ vs equal-weight {rhoEqual.toFixed(3)}</span>
         <span className="tabular">ρ vs baseline {rhoBaseline.toFixed(3)}</span>
+        <span className="basis-full">
+          &ldquo;idx&rdquo; columns are 0–100 domain indices where 100 = most food-inequality-prone
+          (reverse-scored indicators such as income and graduate share are already flipped); &ldquo;%&rdquo;
+          and &ldquo;£&rdquo; columns are the raw Census / ONS values.
+        </span>
       </div>
 
       <div className="max-h-[520px] overflow-auto">
         <table className="w-full border-collapse text-[11px]">
           <thead className="sticky top-0 z-10 bg-white shadow-[0_1px_0_var(--line)]">
-            <tr>{COLS.map(th)}</tr>
+            <tr>{cols.map(th)}</tr>
           </thead>
           <tbody>
             {rows.map((s) => {
@@ -308,7 +373,7 @@ export default function DataTable({
                     active ? "bg-accent-soft" : "hover:bg-panel2"
                   }`}
                 >
-                  {COLS.map((c) => {
+                  {cols.map((c) => {
                     const v = c.get(s);
                     const display =
                       typeof v === "number" ? (c.fmt ? c.fmt(v) : String(v)) : v;

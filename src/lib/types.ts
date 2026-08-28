@@ -86,8 +86,29 @@ export interface WardPoverty {
   children_ahc_2025: number;
 }
 
+export interface AltClassShares {
+  class_ab_pct: number;
+  class_c2_pct: number;
+  class_de_pct: number;
+  class_c2de_pct: number;
+  population_in_households: number;
+}
+
+export interface AltClassVariant {
+  source: string;
+  Hackney: AltClassShares;
+  "Tower Hamlets": AltClassShares;
+}
+
+export interface AltClassGrade {
+  note: string;
+  ethnicGroup: AltClassVariant;
+  sexAge: AltClassVariant;
+}
+
 export interface ContextData {
   boroughPay: BoroughPay[];
+  altClassGrade: AltClassGrade;
   wardChildPoverty: WardPoverty[];
   studyAreas: Record<string, string>;
 }
