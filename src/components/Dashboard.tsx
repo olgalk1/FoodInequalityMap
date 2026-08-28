@@ -55,10 +55,8 @@ export default function Dashboard({ areas, geo, context }: DashboardProps) {
             <h1 className="text-[20px] font-semibold tracking-tight">
               Food Inequality Score — Shoreditch &amp; Brick Lane
             </h1>
-            <p className="mt-0.5 max-w-[72ch] text-[12.5px] leading-relaxed text-muted">
-              A weighted factor model of food inequality across the 64 MSOAs of Hackney and Tower
-              Hamlets, built to test where the food-justice literature stops short of area-level
-              measurement. Scores are normalised min–max across the 64 neighbourhoods.
+            <p className="mt-0.5 text-[12.5px] text-muted">
+              A weighted factor model across the 64 MSOAs of Hackney and Tower Hamlets.
             </p>
           </div>
           <button

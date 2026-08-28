@@ -223,60 +223,98 @@ def read_child_poverty_wards(xl: pd.ExcelFile) -> pd.DataFrame:
     return out
 
 
+BOROUGHS = ("Hackney", "Tower Hamlets")
+GRADES = ("Total", "AB", "C1", "C2", "DE")
+
+# short label -> workbook column header (SG006)
+ETHNIC_GROUPS = {
+    "All residents": "Total",
+    "Asian": "Asian, Asian British or Asian Welsh",
+    "Bangladeshi": "Asian, Asian British or Asian Welsh: Bangladeshi",
+    "Black": "Black, Black British, Black Welsh, Caribbean or African",
+    "Mixed": "Mixed or Multiple ethnic groups",
+    "White": "White",
+    "White British": "White: English, Welsh, Scottish, Northern Irish or British",
+    "Other White": "White: Other White",
+    "Other": "Other ethnic group",
+}
+
+
+def _shares(counts: dict[str, float]) -> dict:
+    total = counts.get("Total") or sum(counts.get(k, 0.0) for k in ("AB", "C1", "C2", "DE"))
+    return {
+        "class_ab_pct": pct(counts.get("AB"), total),
+        "class_c2_pct": pct(counts.get("C2"), total),
+        "class_de_pct": pct(counts.get("DE"), total),
+        "class_c2de_pct": pct((counts.get("C2") or 0) + (counts.get("DE") or 0), total),
+        "population_in_households": total,
+    }
+
+
 def read_alt_class_grade(xl: pd.ExcelFile) -> dict:
-    """Borough-level approximated social grade from the two breakdown sheets.
+    """Borough-level approximated social grade broken two ways.
 
     SG006 (by ethnic group) and SG013 (by sex by age) are published only to
-    local-authority level, so there is no MSOA figure. We take the Hackney and
-    Tower Hamlets totals for each grade and turn them into shares; the app
-    applies each borough's shares to every MSOA in that borough as a
-    class-measure substitution check.
+    local-authority level. The app applies a chosen borough sub-population's
+    social grade to every MSOA in that borough.
+      ethnicGroup: DE/AB/... shares per borough per ethnic group
+      sex:         DE/AB/... shares per borough for women and for men
     """
-    grades = ("Total", "AB", "C1", "C2", "DE")
 
-    def parse(sheet: str) -> dict:
-        df = xl.parse(sheet, header=None)
-        out: dict[str, dict[str, float]] = {}
-        grade = None
-        sex = "All persons"
-        for _, r in df.iterrows():
-            key = str(r[0]).strip()
-            val = str(r[1]).strip()
-            if key == "approximated social grade":
-                grade = next((g for g in grades if val.startswith(g)), None)
-            elif key == "sex":
-                sex = val
-            elif key.startswith(("ladu2023:", "lacu2023:")) and grade and sex == "All persons":
-                borough = key.split(":", 1)[1].strip()
-                if borough in ("Hackney", "Tower Hamlets"):
-                    out.setdefault(borough, {})[grade] = num(r[1]) or 0.0
-        result = {}
-        for borough, g in out.items():
-            total = g.get("Total") or sum(g.get(k, 0) for k in ("AB", "C1", "C2", "DE"))
-            result[borough] = {
-                "class_ab_pct": pct(g.get("AB"), total),
-                "class_c2_pct": pct(g.get("C2"), total),
-                "class_de_pct": pct(g.get("DE"), total),
-                "class_c2de_pct": pct((g.get("C2") or 0) + (g.get("DE") or 0), total),
-                "population_in_households": total,
-            }
-        return result
+    # --- SG006: header row carries the ethnic-group column names ---
+    e = xl.parse("social grade ethnic group", header=None)
+    ecols: list[str] | None = None
+    grade = None
+    raw_e: dict[tuple[str, str], dict[str, float]] = {}
+    for _, r in e.iterrows():
+        k = str(r[0]).strip()
+        if k == "approximated social grade":
+            grade = next((g for g in GRADES if str(r[1]).strip().startswith(g)), None)
+        elif k == "Area" and str(r[1]).strip() == "Total":
+            ecols = [str(x).strip() for x in r.tolist()]
+        elif k.startswith("ladu2023:") and grade and ecols:
+            borough = k.split(":", 1)[1].strip()
+            if borough in BOROUGHS:
+                for i, name in enumerate(ecols):
+                    if i and name and name != "nan":
+                        raw_e.setdefault((borough, name), {})[grade] = num(r[i]) or 0.0
+
+    ethnic: dict = {"source": "Nomis SG006 approximated social grade by ethnic group, Census 2021"}
+    for b in BOROUGHS:
+        ethnic[b] = {
+            short: _shares(raw_e.get((b, col), {}))
+            for short, col in ETHNIC_GROUPS.items()
+            if (b, col) in raw_e
+        }
+
+    # --- SG013: read the Female and Male blocks (age is ignored) ---
+    s = xl.parse("social grad w sex and age", header=None)
+    grade = None
+    sex = "All persons"
+    raw_s: dict[tuple[str, str], dict[str, float]] = {}
+    for _, r in s.iterrows():
+        k = str(r[0]).strip()
+        if k == "approximated social grade":
+            grade = next((g for g in GRADES if str(r[1]).strip().startswith(g)), None)
+        elif k == "sex":
+            sex = str(r[1]).strip()
+        elif k.startswith(("lacu2023:", "ladu2023:")) and grade and sex in ("Female", "Male"):
+            borough = k.split(":", 1)[1].strip()
+            if borough in BOROUGHS:
+                raw_s.setdefault((borough, sex), {})[grade] = num(r[1]) or 0.0
+
+    bysex: dict = {"source": "Nomis SG013 approximated social grade by sex, Census 2021"}
+    for b in BOROUGHS:
+        bysex[b] = {sx: _shares(raw_s.get((b, sx), {})) for sx in ("Female", "Male")}
 
     return {
         "note": (
-            "ONS approximated social grade is published only to local-authority level for "
-            "these two breakdowns. Each borough figure is applied to every MSOA in that "
-            "borough. Shoreditch = Hackney 033 (E02007111); Brick Lane North = "
-            "Tower Hamlets 009 (E02000872)."
+            "ONS approximated social grade for these breakdowns is published only to "
+            "local-authority level. Each borough sub-population's grade is applied to every "
+            "MSOA in the borough. Shoreditch = Hackney 033; Brick Lane North = Tower Hamlets 009."
         ),
-        "ethnicGroup": {
-            "source": "Nomis SG006 approximated social grade by ethnic group, Census 2021",
-            **parse("social grade ethnic group"),
-        },
-        "sexAge": {
-            "source": "Nomis SG013 approximated social grade by sex by age (all persons), Census 2021",
-            **parse("social grad w sex and age"),
-        },
+        "ethnicGroup": ethnic,
+        "sex": bysex,
     }
 
 

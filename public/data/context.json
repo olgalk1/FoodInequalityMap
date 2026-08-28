@@ -964,39 +964,173 @@
   "E02000872": "Brick Lane North"
  },
  "altClassGrade": {
-  "note": "ONS approximated social grade is published only to local-authority level for these two breakdowns. Each borough figure is applied to every MSOA in that borough. Shoreditch = Hackney 033 (E02007111); Brick Lane North = Tower Hamlets 009 (E02000872).",
+  "note": "ONS approximated social grade for these breakdowns is published only to local-authority level. Each borough sub-population's grade is applied to every MSOA in the borough. Shoreditch = Hackney 033; Brick Lane North = Tower Hamlets 009.",
   "ethnicGroup": {
    "source": "Nomis SG006 approximated social grade by ethnic group, Census 2021",
    "Hackney": {
-    "class_ab_pct": 29.2589,
-    "class_c2_pct": 13.9283,
-    "class_de_pct": 25.0795,
-    "class_c2de_pct": 39.0078,
-    "population_in_households": 231133
+    "All residents": {
+     "class_ab_pct": 29.258911535782428,
+     "class_c2_pct": 13.928344286622853,
+     "class_de_pct": 25.079499682001273,
+     "class_c2de_pct": 39.00784396862412,
+     "population_in_households": 231133.0
+    },
+    "Asian": {
+     "class_ab_pct": 19.7979797979798,
+     "class_c2_pct": 16.776094276094277,
+     "class_de_pct": 33.98989898989899,
+     "class_c2de_pct": 50.76599326599327,
+     "population_in_households": 23760.0
+    },
+    "Bangladeshi": {
+     "class_ab_pct": 9.98670654702559,
+     "class_c2_pct": 18.64406779661017,
+     "class_de_pct": 51.22964440013293,
+     "class_c2de_pct": 69.8737121967431,
+     "population_in_households": 6018.0
+    },
+    "Black": {
+     "class_ab_pct": 10.687960687960688,
+     "class_c2_pct": 21.479708548674065,
+     "class_de_pct": 39.750487164280266,
+     "class_c2de_pct": 61.230195712954334,
+     "population_in_households": 47212.0
+    },
+    "Mixed": {
+     "class_ab_pct": 30.467187784039265,
+     "class_c2_pct": 12.52499545537175,
+     "class_de_pct": 25.637762831000423,
+     "class_c2de_pct": 38.162758286372174,
+     "population_in_households": 16503.0
+    },
+    "White": {
+     "class_ab_pct": 40.21322685462099,
+     "class_c2_pct": 10.429363552595419,
+     "class_de_pct": 14.596905866567516,
+     "class_c2de_pct": 25.026269419162936,
+     "population_in_households": 123718.0
+    },
+    "White British": {
+     "class_ab_pct": 40.91008447661785,
+     "class_c2_pct": 9.809316858035565,
+     "class_de_pct": 13.579262726138891,
+     "class_c2de_pct": 23.388579584174458,
+     "population_in_households": 77773.0
+    },
+    "Other White": {
+     "class_ab_pct": 38.537358527947696,
+     "class_c2_pct": 11.706580153049853,
+     "class_de_pct": 16.129671363827732,
+     "class_c2de_pct": 27.836251516877585,
+     "population_in_households": 40379.0
+    },
+    "Other": {
+     "class_ab_pct": 15.536609829488466,
+     "class_c2_pct": 15.526579739217652,
+     "class_de_pct": 44.302908726178536,
+     "class_c2de_pct": 59.82948846539619,
+     "population_in_households": 19940.0
+    }
    },
    "Tower Hamlets": {
-    "class_ab_pct": 28.0645,
-    "class_c2_pct": 13.8688,
-    "class_de_pct": 29.813,
-    "class_c2de_pct": 43.6817,
-    "population_in_households": 281676
+    "All residents": {
+     "class_ab_pct": 28.064513838594696,
+     "class_c2_pct": 13.868771212314858,
+     "class_de_pct": 29.812976611425892,
+     "class_c2de_pct": 43.68174782374075,
+     "population_in_households": 281676.0
+    },
+    "Asian": {
+     "class_ab_pct": 16.93047833116448,
+     "class_c2_pct": 17.53854647265271,
+     "class_de_pct": 42.572656650498836,
+     "class_c2de_pct": 60.11120312315155,
+     "population_in_households": 126795.0
+    },
+    "Bangladeshi": {
+     "class_ab_pct": 8.420164183153643,
+     "class_c2_pct": 20.473659355123942,
+     "class_de_pct": 50.89376325070587,
+     "class_c2de_pct": 71.3674226058298,
+     "population_in_households": 99523.0
+    },
+    "Black": {
+     "class_ab_pct": 17.14639583849393,
+     "class_c2_pct": 17.706217488233836,
+     "class_de_pct": 37.57245479316324,
+     "class_c2de_pct": 55.27867228139708,
+     "population_in_households": 20185.0
+    },
+    "Mixed": {
+     "class_ab_pct": 32.57980545280175,
+     "class_c2_pct": 10.076722838745033,
+     "class_de_pct": 23.927935333607344,
+     "class_c2de_pct": 34.00465817235238,
+     "population_in_households": 14598.0
+    },
+    "White": {
+     "class_ab_pct": 42.30762183950165,
+     "class_c2_pct": 9.56211066324661,
+     "class_de_pct": 14.062843532429461,
+     "class_c2de_pct": 23.62495419567607,
+     "population_in_households": 109160.0
+    },
+    "White British": {
+     "class_ab_pct": 40.03132987055817,
+     "class_c2_pct": 9.771621733036524,
+     "class_de_pct": 17.109407205870227,
+     "class_c2de_pct": 26.881028938906752,
+     "population_in_households": 60645.0
+    },
+    "Other White": {
+     "class_ab_pct": 46.20636978057587,
+     "class_c2_pct": 8.908897324321822,
+     "class_de_pct": 9.607906675307841,
+     "class_c2de_pct": 18.516803999629666,
+     "population_in_households": 43204.0
+    },
+    "Other": {
+     "class_ab_pct": 29.109526421649296,
+     "class_c2_pct": 12.287438288535382,
+     "class_de_pct": 32.62022307551655,
+     "class_c2de_pct": 44.907661364051926,
+     "population_in_households": 10938.0
+    }
    }
   },
-  "sexAge": {
-   "source": "Nomis SG013 approximated social grade by sex by age (all persons), Census 2021",
+  "sex": {
+   "source": "Nomis SG013 approximated social grade by sex, Census 2021",
    "Hackney": {
-    "class_ab_pct": 29.2584,
-    "class_c2_pct": 13.9283,
-    "class_de_pct": 25.0798,
-    "class_c2de_pct": 39.0081,
-    "population_in_households": 231134
+    "Female": {
+     "class_ab_pct": 28.3332226685701,
+     "class_c2_pct": 13.425019089671657,
+     "class_de_pct": 25.65319876498124,
+     "class_c2de_pct": 39.0782178546529,
+     "population_in_households": 120484.0
+    },
+    "Male": {
+     "class_ab_pct": 30.265702666064165,
+     "class_c2_pct": 14.476276547672843,
+     "class_de_pct": 24.455490284681428,
+     "class_c2de_pct": 38.93176683235427,
+     "population_in_households": 110650.0
+    }
    },
    "Tower Hamlets": {
-    "class_ab_pct": 28.0648,
-    "class_c2_pct": 13.8689,
-    "class_de_pct": 29.8129,
-    "class_c2de_pct": 43.6819,
-    "population_in_households": 281673
+    "Female": {
+     "class_ab_pct": 26.68778715138657,
+     "class_c2_pct": 13.535268103528603,
+     "class_de_pct": 30.83781904714121,
+     "class_c2de_pct": 44.37308715066981,
+     "population_in_households": 139517.0
+    },
+    "Male": {
+     "class_ab_pct": 29.41627507808323,
+     "class_c2_pct": 14.19637581248769,
+     "class_de_pct": 28.80708517403416,
+     "class_c2de_pct": 43.00346098652185,
+     "population_in_households": 142156.0
+    }
    }
   }
  }

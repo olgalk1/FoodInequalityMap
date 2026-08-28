@@ -193,7 +193,9 @@ export const DOMAIN_KEYS = DOMAINS.map((d) => d.key);
 
 export interface Preset {
   id: string;
+  /** short chip label */
   label: string;
+  /** one-line note shown on hover */
   rationale: string;
   domains: Record<DomainKey, number>;
 }
@@ -201,44 +203,38 @@ export interface Preset {
 export const PRESETS: Preset[] = [
   {
     id: "baseline",
-    label: "Baseline 40 / 25 / 25 / 10",
-    rationale:
-      "The specification argued for in the methodology chapter: entitlement first, class and deprivation joint second, cultural capital as a modifier.",
+    label: "Baseline",
+    rationale: "40 / 25 / 25 / 10. Entitlement first, class and deprivation joint second, capital a modifier.",
     domains: { income: 40, class: 25, deprivation: 25, education: 10, foodEnvironment: 0 },
   },
   {
     id: "equal",
-    label: "Equal weights",
-    rationale:
-      "A null specification. If the ranking of the study areas survives this, the result is not an artefact of the chosen weights.",
+    label: "Equal",
+    rationale: "25 each. A null check: does the ranking survive dropping the chosen weights?",
     domains: { income: 25, class: 25, deprivation: 25, education: 25, foodEnvironment: 0 },
   },
   {
     id: "sen",
-    label: "Sen: entitlement only",
-    rationale:
-      "Pure command over resources. Isolates how much of the pattern is explained by income alone, which is the strongest version of Sen's position.",
+    label: "Sen",
+    rationale: "Income only. How much of the pattern is command over resources alone?",
     domains: { income: 100, class: 0, deprivation: 0, education: 0, foodEnvironment: 0 },
   },
   {
     id: "bourdieu",
-    label: "Bourdieu: class and capital led",
-    rationale:
-      "Class position and cultural capital carry the model, income demoted to a constraint. Tests whether taste-structure alone reproduces the same map.",
+    label: "Bourdieu",
+    rationale: "Class and capital led, income demoted to a constraint.",
     domains: { income: 20, class: 45, deprivation: 10, education: 25, foodEnvironment: 0 },
   },
   {
     id: "fraser",
-    label: "Fraser: maldistribution led",
-    rationale:
-      "Distribution and access foregrounded, recognition demoted. The specification Fraser's distributive argument implies if it had data.",
+    label: "Fraser",
+    rationale: "Distribution and access foregrounded, recognition demoted.",
     domains: { income: 35, class: 15, deprivation: 45, education: 5, foodEnvironment: 0 },
   },
   {
     id: "hooks",
-    label: "hooks: eating the other",
-    rationale:
-      "Brings the food environment in at full strength alongside class. Asks whether the areas that supply the consumable difference are the areas that carry the deprivation.",
+    label: "hooks",
+    rationale: "Food environment in at full strength alongside class.",
     domains: { income: 25, class: 25, deprivation: 20, education: 5, foodEnvironment: 25 },
   },
 ];

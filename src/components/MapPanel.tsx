@@ -54,7 +54,7 @@ export default function MapPanel({
 
   const activePreset = PRESETS.find((p) => p.id === preset) ?? PRESETS[0];
   const weightSummary = DOMAINS.filter((d) => (activePreset.domains[d.key] ?? 0) > 0)
-    .map((d) => `${d.label.toLowerCase()} ${Math.round(activePreset.domains[d.key])}`)
+    .map((d) => `${d.label} ${Math.round(activePreset.domains[d.key])}`)
     .join(" · ");
 
   return (
@@ -62,11 +62,9 @@ export default function MapPanel({
       <header className="border-b border-line px-4 py-3">
         <div className="flex flex-wrap items-start gap-x-3 gap-y-1">
           <div className="min-w-0">
-            <h2 className="text-[13px] font-semibold tracking-tight">
-              Food Inequality Score — {activePreset.label}
-            </h2>
+            <h2 className="text-[13px] font-semibold tracking-tight">Food Inequality Score</h2>
             <p className="text-[11px] text-muted">
-              64 MSOAs · {weightSummary} · min–max normalised. Click an area to pin it.
+              64 MSOAs, Hackney &amp; Tower Hamlets · {weightSummary}
             </p>
           </div>
           <div className="no-print ml-auto flex items-center gap-1.5">
@@ -108,13 +106,11 @@ export default function MapPanel({
                   : "border-line text-muted hover:border-line-strong hover:text-text"
               }`}
             >
-              {p.label.split(":")[0]}
+              {p.label}
             </button>
           ))}
+          <span className="text-[10.5px] text-muted">{activePreset.rationale}</span>
         </div>
-        {activePreset.id !== "baseline" && (
-          <p className="mt-1.5 text-[11px] leading-relaxed text-muted">{activePreset.rationale}</p>
-        )}
       </header>
 
       <div className="relative">

@@ -47,15 +47,10 @@ export default function SubPlots({ areas, baseModel, hovered, onHover }: Props) 
   return (
     <section className="card">
       <header className="border-b border-line px-4 py-3">
-        <h2 className="text-[13px] font-semibold tracking-tight">
-          Input sensitivity — Shoreditch &amp; Brick Lane
-        </h2>
-        <p className="max-w-[95ch] text-[11px] leading-relaxed text-muted">
-          Each panel flexes one raw input for the two study areas while the weighting stays at the
-          baseline specification (40 / 25 / 25 / 10, min–max). The line is the Food Inequality Score
-          as that figure varies for one area, holding the other 63 fixed; the hollow marker is the
-          real value, the filled marker your what-if. Panels are independent — changing income here
-          does not touch the class panel.
+        <h2 className="text-[13px] font-semibold tracking-tight">Input sensitivity</h2>
+        <p className="text-[11px] text-muted">
+          One raw input flexed per panel for the two study areas, weighting held at baseline. Hollow
+          marker = actual value, filled = your what-if. Panels are independent.
         </p>
       </header>
 

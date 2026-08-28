@@ -285,14 +285,9 @@ export default function DataTable({
     <section className="card overflow-hidden">
       <header className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-line px-4 py-3">
         <div>
-          <h2 className="text-[13px] font-semibold tracking-tight">
-            Scored dataset — 64 neighbourhoods · {presetLabel}
-          </h2>
+          <h2 className="text-[13px] font-semibold tracking-tight">Scored dataset</h2>
           <p className="text-[11px] text-muted">
-            The numbers behind the map above; it follows the specification you pick there. Δ is
-            against the baseline specification. <span className="text-text">Map data</span> shows the
-            four domains that drive the score; <span className="text-text">All data</span> adds food
-            environment, every raw indicator and the designation gap. Click a row to pin an area, a
+            The numbers behind the map ({presetLabel}); Δ is against baseline. Click a row to pin, a
             column to sort.
           </p>
         </div>
@@ -345,13 +340,9 @@ export default function DataTable({
           ))}
         </span>
         <span className="tabular">min–max normalised</span>
-        <span className="tabular">Spearman ρ vs equal-weight {rhoEqual.toFixed(3)}</span>
+        <span className="tabular">ρ vs equal {rhoEqual.toFixed(3)}</span>
         <span className="tabular">ρ vs baseline {rhoBaseline.toFixed(3)}</span>
-        <span className="basis-full">
-          &ldquo;idx&rdquo; columns are 0–100 domain indices where 100 = most food-inequality-prone
-          (reverse-scored indicators such as income and graduate share are already flipped); &ldquo;%&rdquo;
-          and &ldquo;£&rdquo; columns are the raw Census / ONS values.
-        </span>
+        <span>&ldquo;idx&rdquo; = 0–100 domain index (100 = most deprived); &ldquo;%&rdquo; / &ldquo;£&rdquo; = raw values</span>
       </div>
 
       <div className="max-h-[520px] overflow-auto">

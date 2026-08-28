@@ -94,16 +94,20 @@ export interface AltClassShares {
   population_in_households: number;
 }
 
-export interface AltClassVariant {
-  source: string;
-  Hackney: AltClassShares;
-  "Tower Hamlets": AltClassShares;
-}
-
 export interface AltClassGrade {
   note: string;
-  ethnicGroup: AltClassVariant;
-  sexAge: AltClassVariant;
+  /** DE/AB/… shares per borough, keyed by ethnic-group label */
+  ethnicGroup: {
+    source: string;
+    Hackney: Record<string, AltClassShares>;
+    "Tower Hamlets": Record<string, AltClassShares>;
+  };
+  /** DE/AB/… shares per borough for "Female" and "Male" */
+  sex: {
+    source: string;
+    Hackney: Record<"Female" | "Male", AltClassShares>;
+    "Tower Hamlets": Record<"Female" | "Male", AltClassShares>;
+  };
 }
 
 export interface ContextData {
