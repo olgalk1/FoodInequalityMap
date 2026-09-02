@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import type { FeatureCollection, Geometry } from "geojson";
 
 import BarCharts from "./BarCharts";
+import Correlations from "./Correlations";
 import DataTable from "./DataTable";
 import MapPanel from "./MapPanel";
 import MethodDrawer from "./MethodDrawer";
@@ -135,6 +136,8 @@ export default function Dashboard({ areas, geo, context }: DashboardProps) {
             hovered={hovered}
             onHover={setHovered}
           />
+
+          <Correlations baseModel={baseModel} />
 
           <DataTable
             areas={areas}
